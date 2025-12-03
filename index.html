@@ -4,20 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hanik Sator – Portfolio</title>
-
-  <!-- Inter font -->
+  <!-- font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* ─── Palette (Sage & Sand) ──────── */
+    /* Palette (Sage & Sand) */
     :root {
-      --bg: #faf8f6;           /* oatmilk */
-      --bg-alt: #ffffff;       /* cards */
-      --text: #1f2937;         /* slate-800 */
-      --heading: #0f172a;      /* slate-900 */
-      --accent: #0ea5a4;       /* teal-500 (primary) */
+      --bg: #faf8f6;       /* oatmilk */
+      --bg-alt: #ffffff;     /* cards */
+      --text: #1f2937;       /* slate-800 */
+      --heading: #0f172a;    /* slate-900 */
+      --accent: #0ea5a4;     /* teal-500 (primary) */
       --accent-soft: #5eead4;  /* teal-300 for rails/badges */
-      --border: #e9e6e2;       /* warm border */
+      --border: #e9e6e2;     /* warm border */
       --radius: 14px;
       --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
       --ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -25,18 +24,18 @@
 
     @media (prefers-color-scheme: dark){
       :root{
-        --bg: #0b1320;         /* inky blue */
+        --bg: #0b1320;      /* inky blue */
         --bg-alt: #0f1828;     
         --text: #e5eef7;       
         --heading: #ffffff;    
-        --accent: #2dd4bf;     /* a bit brighter in dark */
+        --accent: #2dd4bf;   /* a bit brighter in dark */
         --accent-soft: #134e4a;
         --border: #1c2740;
         --shadow: 0 10px 28px rgba(0,0,0,.35);
       }
     }
 
-    /* ─── Base reset ───────────────────────────────────────────────*/
+    /*  Base reset */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -49,24 +48,41 @@
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; display: block; }
 
-    /* ─── Utilities ───────────────────────────────────────────────*/
-    .container { max-width: 1160px; margin-inline: auto; padding-inline: 1.6rem; }
-    .section { padding-block: 5rem; }
+    /* Utilities */
+    .container {
+        max-width: 1160px;
+        margin-inline: auto;
+        padding-inline: 1.6rem;
+    }
+    .section {
+        padding-block: 5rem;
+    }
     .section-title {
-      font-size: 2.8rem; font-weight: 700; color: var(--heading);
-      text-align: center; margin-bottom: 3rem;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--heading);
+      text-align: center;
+      margin-bottom: 3rem;
     }
 
-    /* ─── Boot overlay (terminal intro) ───────────────────────────*/
+    /* Boot overlay (terminal intro) */
     .boot-overlay{
-      position: fixed; inset:0; 
+      position: fixed;
+      inset:0;
       background: radial-gradient(1200px 600px at 50% -10%, #0b1320, #05080f 70%);
-      color:#e5eef7; font: 0.95rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
-      padding: 2rem; overflow-y: auto; z-index:1000; transition: opacity .6s var(--ease);
+      color:#e5eef7;
+      font: 0.95rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+      padding: 2rem;
+      overflow-y: auto;
+      z-index:1000;
+      transition: opacity .6s var(--ease);
     }
-    .boot-overlay.hidden{ opacity:0; pointer-events:none; }
+    .boot-overlay.hidden{
+        opacity:0;
+        pointer-events:none;
+    }
 
-    /* ─── Header ─────────────────────────────────────────────────*/
+    /* Header */
     header{
       position: sticky; 
       top:0; 
@@ -92,16 +108,27 @@
     nav a:hover{ color: var(--accent); }
     nav a:hover::after{ transform:scaleX(1); }
 
-    /* ─── Hero ───────────────────────────────────────────────────*/
+    /* Hero */
     .hero {
-      min-height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
     }
     .hero h2 {
-      font-size: clamp(2.6rem, 6vw, 3.8rem); font-weight: 700; color: var(--heading); margin-bottom: 1rem;
+      font-size: clamp(2.6rem, 6vw, 3.8rem);
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 1rem;
     }
-    .hero p { font-size: 1.25rem; max-width: 680px; }
+    .hero p {
+        font-size: 1.25rem;
+        max-width: 680px;
+    }
 
-    /* ─── Timeline (Corrected & Responsive) ───────────────────── */
+    /* Timeline (Fixed) */
     .timeline{
       --dot-size: 24px;
       --dotHalf: calc(var(--dot-size)/2);
@@ -113,7 +140,7 @@
       margin-top: 1.2rem;
     }
 
-    /* Center rail */
+    /* Center rail (Fixed) */
     .timeline::before{
       content: "";
       position: absolute;
@@ -135,8 +162,12 @@
       box-shadow: var(--shadow);
       width: calc(50% - var(--rail-gap));
     }
-    .timeline-item:nth-child(odd){  justify-self: start; }
-    .timeline-item:nth-child(even){ justify-self: end; }
+    .timeline-item:nth-child(odd){
+        justify-self: start;
+    }
+    .timeline-item:nth-child(even){
+        justify-self: end;
+    }
 
     /* Dots */
     .timeline-item::after{
@@ -176,13 +207,20 @@
       }
     }
 
-    /* ─── Skills ───────────────────────────────────────────────*/
+    /* Skills */
     .skill-group { margin-top: 2rem; }
     .skill-group h4 {
-      font-size: 1.1rem; font-weight: 600; color: var(--accent-soft); margin-bottom: 0.8rem; text-align: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent-soft);
+      margin-bottom: 0.8rem;
+      text-align: center;
     }
     .skills-list {
-      display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
     }
     .badge{
       padding: .45rem .9rem;
@@ -215,11 +253,18 @@
         border-color: rgba(45,212,191,0.60);
     }
 
-    /* ─── Projects (spacing & hierarchy) ─────────────────── */
+    /* Projects (fixed) */
     .project-link{
-      appearance: none; -webkit-appearance: none;
-      background: none; border: none; padding: 0; margin: 0;
-      color: var(--accent); font-weight: 700; font-size: .95rem; line-height: 1;
+      appearance: none;
+      -webkit-appearance: none;
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: .95rem;
+      line-height: 1;
       display: inline-flex; align-items: center; gap: .35rem; cursor: pointer;
     }
     .project-link:hover{ text-decoration: underline; text-underline-offset: 3px; }
@@ -235,7 +280,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 1.8rem;                    /* add back padding */
+      padding: 1.8rem;
       display: flex;
       flex-direction: column;
       gap: .6rem;
@@ -244,13 +289,13 @@
     .project-card h3{ font-size:1.2rem; font-weight:700; color:var(--heading); }
     .project-card p{ font-size:.98rem; color:var(--text); opacity:.9; }
     .project-card .project-link{
-      margin-top: auto;        /* pushes it to the bottom */
-      align-self: flex-start;  /* left-align at the bottom */
+      margin-top: auto;
+      align-self: flex-start;
     }
 
     .project-card:hover{ transform: translateY(-6px); box-shadow: 0 16px 28px rgba(15,23,42,.10); }
 
-    /* ─── Contact (elevated card with actions) ────── */
+    /* Contact (elevated card with actions) */
     .contact-card {
       background: var(--bg);
       border: 1px solid var(--border);
@@ -265,7 +310,7 @@
 
     .contact-lead{ color:#334155; }
     @media (prefers-color-scheme: dark){
-      .contact-lead{ color:#c7d2fe; /* soft indigo-ish for readability */ }
+      .contact-lead{ color:#c7d2fe; }
     }
 
     .pill {
@@ -358,7 +403,7 @@
 
     .center { display: flex; justify-content: center; }
 
-    /* ─── Footer (palette-only refresh) ──────── */
+    /* Footer (refreshed version) ──────── */
   footer{
     position: relative;
     /* layered, very light teal wash that works in light & dark */
@@ -485,14 +530,14 @@
 
     .version{ font-size:.82rem; color: var(--border); }
 
-    /* ─── Scroll reveal ─────*/
+    /* Scroll reveal */
     .reveal {
       opacity: 0; transform: translateY(70px);
       transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); will-change: opacity, transform;
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ─── Toast (Welcome!) ──── */
+    /* Toast (Welcome!) */
     .toast {
       position: fixed; top: 18px; left: 50%; transform: translate(-50%, -10px);
       background: var(--heading); color: var(--bg); padding: 0.85rem 1.1rem; border-radius: 999px;
@@ -529,20 +574,33 @@
 
     /* Scroll progress bar */
     .scroll-progress {
-      position: fixed; inset: 0 auto auto 0;
-      height: 3px; width: 0%;
+      position: fixed;
+      inset: 0 auto auto 0;
+      height: 3px;
+      width: 0%;
       background: linear-gradient(90deg, var(--accent), transparent);
-      z-index: 9999; border-radius: 0 3px 3px 0;
+      z-index: 9999;
+      border-radius: 0 3px 3px 0;
       transition: width .12s var(--ease);
     }
-    @media (prefers-reduced-motion: reduce){ .scroll-progress{ transition: none; } }
-    /* End of Scroll Progess Bar*/
+
+    @media (prefers-reduced-motion: reduce){
+        .scroll-progress{ transition: none; }
+    }
 
     /* Magnetic hover */
-    .magnet { will-change: transform; transition: transform .15s var(--ease); }
-    .magnet:hover { transform: translateZ(0); }
-    @media (prefers-reduced-motion: reduce){ .magnet { transition:none; } }
-    /* End of Magnetic Hover */
+    .magnet {
+        will-change: transform;
+        transition: transform .15s var(--ease);
+    }
+    .magnet:hover {
+        transform: translateZ(0);
+    }
+    @media (prefers-reduced-motion: reduce){
+        .magnet {
+            transition:none;
+        }
+    }
 
       #skipBoot {
           position: absolute;
@@ -563,6 +621,7 @@
         #skipBoot:hover {
           opacity: 1;
         }
+
       #buildStamp {
           color: rgba(148, 163, 184, 0.75); /* slate-300 with opacity */
           font-size: 0.85rem;
@@ -729,20 +788,17 @@
         <div>
           <p class="contact-lead">Have a project in mind or just want to chat? I’m happy to connect.</p>
           <span class="pill">
-            <!-- clock icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Usually replies within 24h
           </span>
 
           <div class="contact-rows" style="margin-top:1rem">
             <div class="contact-row">
-              <!-- mail icon -->
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16v12H4z" stroke-width="1.6"/><path d="M4 7l8 6 8-6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span>haniksator@gmail.com</span>
               <small>— email</small>
             </div>
             <div class="contact-row">
-              <!-- phone icon -->
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v2a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.08 4.18 2 2 0 0 1 5 2h2a2 2 0 0 1 2 1.72c.12.9.3 1.78.57 2.63a2 2 0 0 1-.45 2.11L8 9a16 16 0 0 0 7 7l.54-1.12a2 2 0 0 1 2.11-.45c.85.27 1.73.45 2.63.57A2 2 0 0 1 22 16.92z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span>773-704-8411</span>
               <small>— phone</small>
@@ -753,7 +809,6 @@
         <!-- Right: action buttons -->
         <div class="contact-actions">
           <a class="btn-primary magnet" href="mailto:haniksator@gmail.com">
-            <!-- paper plane -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 2L11 13" stroke-width="1.8"/><path d="M22 2l-7 20-4-9-9-4 20-7z" stroke-width="1.8" stroke-linejoin="round"/></svg>
             Email Me
           </a>
@@ -846,7 +901,6 @@
 
     function typeNextChar() {
       if (lineIndex >= bootLines.length) {
-        // Finished the last line → fade out
         bootText.innerHTML += "<span style='color:#00ff88'>[ ACCESS GRANTED – Welcome! ]</span><br>";
         bootOverlay.scrollTop = bootOverlay.scrollHeight;
 
@@ -862,7 +916,6 @@
 
       const currentLine = bootLines[lineIndex];
 
-      // If line still has characters left
       if (charIndex < currentLine.length) {
         bootText.innerHTML += currentLine.charAt(charIndex);
         charIndex++;
@@ -870,7 +923,7 @@
 
         setTimeout(typeNextChar, lineDelay);
       } else {
-        // Line finished → break line and move to next
+        // Line finished, breaks line and moves to next
         bootText.innerHTML += "<br>";
         lineIndex++;
         charIndex = 0;
@@ -883,7 +936,6 @@
     // Start boot typing on page load
     window.onload = () => setTimeout(typeNextChar, 600);
 
-
     // Simple toast
     function showToast(msg) {
       const toast = document.createElement('div');
@@ -894,6 +946,7 @@
       setTimeout(() => toast.classList.remove('visible'), 2600);
       setTimeout(() => toast.remove(), 3100);
     }
+
     // Confetti at cursor
     function confettiBurstAt(x, y){
       const colors = ['#2dd4bf','#0ea5a4','#86e7de','#ffffff'];
@@ -921,9 +974,6 @@
         ).onfinish = () => p.remove();
       }
     }
-    // End confetti
-
-    // window.onload = () => setTimeout(type, 600);
 
     // Scroll-reveal
     const observer = new IntersectionObserver(entries => {
@@ -947,10 +997,10 @@
     document.getElementById('buildStamp').textContent =
       `build ${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
-    // Fancy "Coming soon" modal for project links (safe + DOM-ready)
+    // Temporary coming soon modal for project links
     document.addEventListener('DOMContentLoaded', () => {
       const csModal = document.getElementById('comingSoonModal');
-      if (!csModal) return; // if the modal isn't in the DOM yet, skip
+      if (!csModal) return;
 
       let csReturnFocus = null;
 
@@ -968,19 +1018,16 @@
       }
       function escCloseCS(e){ if(e.key === 'Escape') closeCSModal(); }
 
-      // Click backdrop or elements with data-close to close
       csModal.addEventListener('click', (e)=>{
         if (e.target.matches('[data-close], .cs-backdrop')) closeCSModal();
       });
 
-      // Delegate clicks for any element with .project-link (covers buttons now)
       document.addEventListener('click', (e) => {
         const trigger = e.target.closest('.project-link');
         if (!trigger) return;
         openCSModal(trigger);
       });
     });
-
 
     document.addEventListener('keydown', (e)=>{
       if(e.key === 'Escape' && !bootOverlay.classList.contains('hidden')){
@@ -989,7 +1036,7 @@
       }
     });
 
-    // Copy + toast + confetti at cursor
+    // Contact card interactions
     document.querySelectorAll('[data-copy]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const val = btn.getAttribute('data-copy');
@@ -1008,7 +1055,6 @@
         });
       });
     });
-    // End Copy & Confetti
 
     // Scroll progress
     const sp = document.getElementById('scrollProgress');
@@ -1019,7 +1065,6 @@
     }
     document.addEventListener('scroll', updateSP, {passive:true});
     updateSP();
-    // End Scroll Progress
 
     // Magnetic effect
     function makeMagnet(el, strength = 12){
@@ -1032,10 +1077,10 @@
       el.addEventListener('mouseleave', ()=> el.style.transform = '');
     }
     document.querySelectorAll('.magnet').forEach(el => makeMagnet(el));
-    // End Magnetic Effect
 
     document.getElementById("year").textContent = new Date().getFullYear();
 
+    // Skip intro overlay
     document.getElementById("skipBoot").addEventListener("click", () => {
         bootOverlay.style.opacity = "0";
         setTimeout(() => {
@@ -1043,25 +1088,25 @@
             mainContent.style.opacity = "1";
         }, 200);
     });
-
   </script>
-<!-- Coming Soon Modal -->
-<div class="cs-modal" id="comingSoonModal" aria-hidden="true" role="dialog" aria-labelledby="csTitle" aria-modal="true">
-  <button class="cs-backdrop" data-close aria-label="Close"></button>
-  <div class="cs-panel" role="document" tabindex="-1">
-    <div class="cs-head">
-      <!-- lil spark icon -->
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l1.7 4.6L18 8.3l-4.6 1.7L12 14.6l-1.4-4.6L6 8.3l4.6-1.7L12 2zm6 10.5l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9.9-2.5zM6 14l.7 2 2 .7-2 .7L6 20l-.7-2-2-.7 2-.7.7-2z"/></svg>
-      <h3 id="csTitle">Coming soon</h3>
+
+    <!-- Temporary Coming Soon Modal -->
+    <div class="cs-modal" id="comingSoonModal" aria-hidden="true" role="dialog" aria-labelledby="csTitle" aria-modal="true">
+      <button class="cs-backdrop" data-close aria-label="Close"></button>
+      <div class="cs-panel" role="document" tabindex="-1">
+        <div class="cs-head">
+          <!-- lil spark icon -->
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l1.7 4.6L18 8.3l-4.6 1.7L12 14.6l-1.4-4.6L6 8.3l4.6-1.7L12 2zm6 10.5l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9.9-2.5zM6 14l.7 2 2 .7-2 .7L6 20l-.7-2-2-.7 2-.7.7-2z"/></svg>
+          <h3 id="csTitle">Coming soon</h3>
+        </div>
+        <p class="cs-body">
+          This project page isn’t connected yet. I’m polishing the write-up and links.
+        </p>
+        <div class="cs-actions">
+          <a class="btn" href="mailto:haniksator@gmail.com?subject=Project%20preview%20request">Request preview</a>
+          <button class="btn-ghost" data-close>OK</button>
+        </div>
+      </div>
     </div>
-    <p class="cs-body">
-      This project page isn’t connected yet. I’m polishing the write-up and links.
-    </p>
-    <div class="cs-actions">
-      <a class="btn" href="mailto:haniksator@gmail.com?subject=Project%20preview%20request">Request preview</a>
-      <button class="btn-ghost" data-close>OK</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
