@@ -762,11 +762,17 @@
     <section id="projects" class="section container">
       <h2 class="section-title reveal">Featured Projects</h2>
       <div class="project-grid">
-        <div class="project-card reveal">
-          <h3>FreshTrack</h3>
-          <p>Inventory system built with <strong>Django</strong> and <strong>PostgreSQL</strong>, featuring product tracking, expiration alerts, and category-based filtering.</p>
-          <button type="button" class="project-link">Details ↗</button>
-        </div>
+          <div class="project-card reveal">
+              <h3>FreshTrack</h3>
+              <p>Inventory system built with <strong>Django</strong> and <strong>PostgreSQL</strong>, featuring product tracking, expiration alerts, and category-based filtering.</p>
+              <button
+                      type="button"
+                      class="project-link"
+                      data-live-url="https://freshtrack-inventory.onrender.com"
+              >
+                  Live Demo ↗
+              </button>
+          </div>
         <div class="project-card reveal">
           <h3>Minesweeper FX</h3>
           <p>Modern JavaFX take on Minesweeper with timer, flag counter & state-saving.</p>
@@ -997,35 +1003,73 @@
     document.getElementById('buildStamp').textContent =
       `build ${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
-    // Temporary coming soon modal for project links
+    // Temporary coming soon modal for project links and live demo health check
     document.addEventListener('DOMContentLoaded', () => {
       const csModal = document.getElementById('comingSoonModal');
       if (!csModal) return;
 
       let csReturnFocus = null;
 
-      function openCSModal(triggerEl){
+      function openCSModal(triggerEl, message) {
         csReturnFocus = triggerEl || null;
-        csModal.setAttribute('aria-hidden','false');
+
+        const bodyEl = csModal.querySelector('.cs-body');
+        if (message) {
+          bodyEl.textContent = message;
+        } else {
+          // default "coming soon" copy
+          bodyEl.textContent = "This project page isn’t connected yet. I’m polishing the write-up and links.";
+        }
+
+        csModal.setAttribute('aria-hidden', 'false');
         const panel = csModal.querySelector('.cs-panel');
         panel && panel.focus();
         document.addEventListener('keydown', escCloseCS);
       }
-      function closeCSModal(){
-        csModal.setAttribute('aria-hidden','true');
+
+      function closeCSModal() {
+        csModal.setAttribute('aria-hidden', 'true');
         document.removeEventListener('keydown', escCloseCS);
         csReturnFocus && csReturnFocus.focus();
       }
-      function escCloseCS(e){ if(e.key === 'Escape') closeCSModal(); }
 
-      csModal.addEventListener('click', (e)=>{
+      function escCloseCS(e) {
+        if (e.key === 'Escape') closeCSModal();
+      }
+
+      csModal.addEventListener('click', (e) => {
         if (e.target.matches('[data-close], .cs-backdrop')) closeCSModal();
       });
 
-      document.addEventListener('click', (e) => {
+      document.addEventListener('click', async (e) => {
         const trigger = e.target.closest('.project-link');
         if (!trigger) return;
-        openCSModal(trigger);
+
+        const liveUrl = trigger.dataset.liveUrl;
+        if (!liveUrl) {
+          openCSModal(trigger);
+          return;
+        }
+
+        // For liveUrl (FreshTrack): try to ping it first.
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 2500); // 2.5s timeout
+
+          // no-cors means that we can't read status, but we can detect hard network failures
+          await fetch(liveUrl, { mode: 'no-cors', signal: controller.signal });
+
+          clearTimeout(timeoutId);
+
+          // If we get here, the server is reachable so we need to open in new tab
+          window.open(liveUrl, '_blank', 'noopener');
+        } catch (err) {
+          // Network failed, simply show friendly offline message
+          openCSModal(
+            trigger,
+            "The live FreshTrack demo appears to be offline right now. Please try again later or email me for a walkthrough."
+          );
+        }
       });
     });
 
