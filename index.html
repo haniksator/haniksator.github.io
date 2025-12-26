@@ -22,12 +22,18 @@
       --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    @media (prefers-color-scheme: dark){
+    <!-- Force light mode -->
+    :root {
+      color-scheme: light;
+    }
+
+    <!-- Deactivates dark mode, if I want to bring back, delete second part of conditional -->
+    @media (prefers-color-scheme: dark) and (max-width:0px) {
       :root{
         --bg: #0b1320;      /* inky blue */
-        --bg-alt: #0f1828;     
-        --text: #e5eef7;       
-        --heading: #ffffff;    
+        --bg-alt: #0f1828;
+        --text: #e5eef7;
+        --heading: #ffffff;
         --accent: #2dd4bf;   /* a bit brighter in dark */
         --accent-soft: #134e4a;
         --border: #1c2740;
@@ -92,9 +98,12 @@
       border-bottom: 1px solid var(--border);
       box-shadow: 0 6px 18px rgba(0,0,0,.04);
     }
-    @media (prefers-color-scheme: dark){
+
+    <!-- Deactivates dark mode, if I want to bring back, delete second part of conditional -->
+    @media (prefers-color-scheme: dark) and (max-width:0px) {
       header{ background: rgba(11,19,32,.6); }
     }
+
     .nav-wrap { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.6rem; }
     header h1 { font-size: 1.5rem; font-weight: 700; color: var(--heading); }
     nav ul { display: flex; gap: 1.6rem; list-style: none; }
@@ -238,7 +247,8 @@
                   border-color .25s var(--ease);
     }
 
-    @media (prefers-color-scheme: dark){
+    <!-- Deactivates dark mode, if I want to bring back, delete second part of conditional -->
+    @media (prefers-color-scheme: dark) and (max-width:0px) {
       .badge{
         background: rgba(45,212,191,0.20);
         border-color: rgba(45,212,191,0.45);
@@ -317,7 +327,9 @@
     }
 
     .contact-lead{ color:#334155; }
-    @media (prefers-color-scheme: dark){
+
+     <!-- Deactivates dark mode, if I want to bring back, delete second part of conditional -->
+    @media (prefers-color-scheme: dark) and (max-width:0px){
       .contact-lead{ color:#c7d2fe; }
     }
 
@@ -808,30 +820,54 @@
           <div class="project-card reveal">
               <h3>FreshTrack</h3>
               <p>Inventory system built with <strong>Django</strong> and <strong>PostgreSQL</strong>, featuring product tracking, expiration alerts, and category-based filtering.</p>
-              <button
-                      type="button"
-                      class="project-link"
-                      data-live-url="https://freshtrack-inventory.onrender.com"
-              >
-                  Live Demo ↗
-              </button>
-              <button
-                  type="button"
-                  class="project-link"
-                  data-video="assets/freshtrack-walkthrough.mp4"
-                  data-video-title="FreshTrack Walkthrough">
-                  Walkthrough ▶
-              </button>
+              <div class="project-actions">
+                  <button
+                          type="button"
+                          class="project-link"
+                          data-live-url="https://freshtrack-inventory.onrender.com">
+                      Live Demo
+                  </button>
+
+                  <button
+                          type="button"
+                          class="project-link"
+                          data-video="assets/freshtrack-walkthrough.mp4"
+                          data-video-title="FreshTrack Walkthrough"
+                          data-notes-title="What this walkthrough shows"
+                          data-note-1="Expiration-aware forecasting and inventory views for perishable and non-perishable items"
+                          data-note-2="Household-based inventory tracking across shared locations"
+                          data-note-3="Shared household lists with drag-and-drop organization and shopping workflow"
+                          data-note-4="User flows including registration, login, household invites, and member management">
+                      Walkthrough
+                  </button>
+              </div>
           </div>
         <div class="project-card reveal">
           <h3>Minesweeper FX</h3>
           <p>Modern JavaFX take on Minesweeper with timer, flag counter & state-saving.</p>
-          <button type="button" class="project-link">Play ↗</button>
+          <button type="button" class="project-link">Play</button>
         </div>
         <div class="project-card reveal">
-          <h3>Chat System</h3>
-          <p>Real-time socket chat supporting multi-client messaging & file transfer (Python).</p>
-          <button type="button" class="project-link">Explore ↗</button>
+          <h3>Remote-Controlled Car</h3>
+            <p>
+                Raspberry Pi–based car with Python control logic, real-time feedback via LEDs and buzzer,
+                and responsive motor control using GPIO.
+            </p>
+            <div class="project-actions">
+                <button
+                        type="button"
+                        class="project-link"
+                        data-video="assets/rc-car-walkthrough.mp4"
+                        data-video-title="Remote-Controlled Car Demo"
+                        data-notes-title="What this demo shows"
+                        data-note-1="Raspberry Pi–based remote-controlled car with integrated motors, LEDs, and sensors"
+                        data-note-2="Python control logic handling speed, direction, and real-time movement commands"
+                        data-note-3="Immediate visual and audio feedback using LEDs and a buzzer for system state"
+                        data-note-4="Low-latency hardware interaction using GPIOZero for reliable motor control"
+                >
+                    Demo
+                </button>
+            </div>
         </div>
       </div>
     </section>
@@ -1203,8 +1239,33 @@
         videoPlayer.load();
 
         videoPlayer.src = src;
-        videoModal.setAttribute('aria-hidden', 'false');
+        const notesEl = document.getElementById('videoNotes');
+        notesEl.innerHTML = '';
 
+        const notesTitle = triggerEl.dataset.notesTitle;
+        if (notesTitle) {
+          const h = document.createElement('h4');
+          h.textContent = notesTitle;
+          notesEl.appendChild(h);
+        }
+
+        const ul = document.createElement('ul');
+        let hasNotes = false;
+
+        Object.keys(triggerEl.dataset).forEach(key => {
+            if (key.startsWith('note') && key !== 'notesTitle') {
+                hasNotes = true;
+                const li = document.createElement('li');
+                li.textContent = triggerEl.dataset[key];
+                ul.appendChild(li);
+            }
+        });
+
+        if (hasNotes) {
+            notesEl.appendChild(ul);
+        }
+
+        videoModal.setAttribute('aria-hidden', 'false');
         const panel = videoModal.querySelector('.cs-panel');
         panel && panel.focus();
       }
@@ -1246,8 +1307,6 @@
       <button class="cs-backdrop" data-close aria-label="Close"></button>
       <div class="cs-panel" role="document" tabindex="-1">
         <div class="cs-head">
-          <!-- lil spark icon -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l1.7 4.6L18 8.3l-4.6 1.7L12 14.6l-1.4-4.6L6 8.3l4.6-1.7L12 2zm6 10.5l.9 2.5 2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9.9-2.5zM6 14l.7 2 2 .7-2 .7L6 20l-.7-2-2-.7 2-.7.7-2z"/></svg>
           <h3 id="csTitle">Coming soon</h3>
         </div>
         <p class="cs-body">
@@ -1265,9 +1324,6 @@
 
         <div class="cs-panel cs-panel-video" role="document" tabindex="-1">
           <div class="cs-head">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path fill="currentColor" d="M8 5v14l11-7L8 5z"/>
-              </svg>
               <h3 id="videoTitle">Walkthrough</h3>
           </div>
 
@@ -1275,15 +1331,7 @@
               <video id="videoPlayer" controls playsinline style="width:100%; border-radius: 12px; border:1px solid var(--border); background: #000;">
                   Sorry, your browser doesn’t support embedded videos.
               </video>
-              <div class="video-notes">
-                  <h4>What this walkthrough shows</h4>
-                  <ul>
-                      <li>Expiration-aware forecasting and inventory views for perishable and non-perishable items</li>
-                      <li>Household-based inventory tracking across shared locations</li>
-                      <li>Shared household lists with drag-and-drop organization and shopping workflow</li>
-                      <li>User flows including registration, login, household invites, and member management</li>
-                  </ul>
-              </div>
+              <div class="video-notes" id="videoNotes"></div>
           </div>
 
           <div class="cs-actions" style="margin-top: .9rem;">
