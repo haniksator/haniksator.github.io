@@ -295,6 +295,14 @@
 
     .project-card:hover{ transform: translateY(-6px); box-shadow: 0 16px 28px rgba(15,23,42,.10); }
 
+    .project-actions{
+      display:flex;
+      gap:.9rem;
+      flex-wrap:wrap;
+      margin-top:auto;
+      align-self:flex-start;
+    }
+
     /* Contact (elevated card with actions) */
     .contact-card {
       background: var(--bg);
@@ -572,6 +580,42 @@
       .cs-modal, .cs-panel{ transition:none; }
     }
 
+    .cs-panel-video{
+      width: min(820px, calc(100vw - 2rem));
+    }
+
+    .video-notes{
+      margin-top: 1rem;
+      padding-top: .9rem;
+      border-top: 1px solid var(--border);
+      font-size: .95rem;
+    }
+
+    .video-notes h4{
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: .45rem;
+    }
+
+    .video-notes ul{
+      list-style: none;
+      display: grid;
+      gap: .35rem;
+    }
+
+    .video-notes li{
+      position: relative;
+      padding-left: 1rem;
+      opacity: .9;
+    }
+
+    .video-notes li::before{
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
     /* Scroll progress bar */
     .scroll-progress {
       position: fixed;
@@ -706,7 +750,6 @@
           <span class="badge">Python</span>
           <span class="badge">C</span>
           <span class="badge">C++</span>
-          <span class="badge">Scala</span>
           <span class="badge">JavaScript</span>
           <span class="badge">SQL</span>
         </div>
@@ -771,6 +814,13 @@
                       data-live-url="https://freshtrack-inventory.onrender.com"
               >
                   Live Demo ↗
+              </button>
+              <button
+                  type="button"
+                  class="project-link"
+                  data-video="assets/freshtrack-walkthrough.mp4"
+                  data-video-title="FreshTrack Walkthrough">
+                  Walkthrough ▶
               </button>
           </div>
         <div class="project-card reveal">
@@ -1044,6 +1094,7 @@
       document.addEventListener('click', async (e) => {
         const trigger = e.target.closest('.project-link');
         if (!trigger) return;
+        if (trigger.dataset.video) return;
 
         const liveUrl = trigger.dataset.liveUrl;
         if (!liveUrl) {
@@ -1132,6 +1183,62 @@
             mainContent.style.opacity = "1";
         }, 200);
     });
+      // Walkthrough video modal
+    document.addEventListener('DOMContentLoaded', () => {
+      const videoModal = document.getElementById('videoModal');
+      const videoPlayer = document.getElementById('videoPlayer');
+      const videoTitle = document.getElementById('videoTitle');
+
+      if (!videoModal || !videoPlayer || !videoTitle) return;
+
+      let returnFocus = null;
+
+      function openVideoModal(triggerEl, src, titleText){
+        returnFocus = triggerEl || null;
+
+        videoTitle.textContent = titleText || "Walkthrough";
+        // reset + set source
+        videoPlayer.pause();
+        videoPlayer.removeAttribute('src');
+        videoPlayer.load();
+
+        videoPlayer.src = src;
+        videoModal.setAttribute('aria-hidden', 'false');
+
+        const panel = videoModal.querySelector('.cs-panel');
+        panel && panel.focus();
+      }
+
+      function closeVideoModal(){
+        videoModal.setAttribute('aria-hidden', 'true');
+        videoPlayer.pause();
+        videoPlayer.removeAttribute('src');
+        videoPlayer.load();
+        returnFocus && returnFocus.focus();
+      }
+
+      videoModal.addEventListener('click', (e) => {
+        if (e.target.matches('[data-close-video], .cs-backdrop')) closeVideoModal();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (videoModal.getAttribute('aria-hidden') === 'false' && e.key === 'Escape') {
+          closeVideoModal();
+        }
+      });
+
+      // Hook into your existing project-link click handler without breaking live demo
+      document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('.project-link');
+        if (!trigger) return;
+
+        const videoSrc = trigger.dataset.video;
+        if (!videoSrc) return;
+
+        e.preventDefault();
+        openVideoModal(trigger, videoSrc, trigger.dataset.videoTitle);
+      });
+    });
   </script>
 
     <!-- Temporary Coming Soon Modal -->
@@ -1150,6 +1257,38 @@
           <a class="btn" href="mailto:haniksator@gmail.com?subject=Project%20preview%20request">Request preview</a>
           <button class="btn-ghost" data-close>OK</button>
         </div>
+      </div>
+    </div>
+
+    <div class="cs-modal" id="videoModal" aria-hidden="true" role="dialog" aria-labelledby="videoTitle" aria-modal="true">
+      <button class="cs-backdrop" data-close-video aria-label="Close"></button>
+
+        <div class="cs-panel cs-panel-video" role="document" tabindex="-1">
+          <div class="cs-head">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M8 5v14l11-7L8 5z"/>
+              </svg>
+              <h3 id="videoTitle">Walkthrough</h3>
+          </div>
+
+          <div style="margin-top:.8rem">
+              <video id="videoPlayer" controls playsinline style="width:100%; border-radius: 12px; border:1px solid var(--border); background: #000;">
+                  Sorry, your browser doesn’t support embedded videos.
+              </video>
+              <div class="video-notes">
+                  <h4>What this walkthrough shows</h4>
+                  <ul>
+                      <li>Expiration-aware forecasting and inventory views for perishable and non-perishable items</li>
+                      <li>Household-based inventory tracking across shared locations</li>
+                      <li>Shared household lists with drag-and-drop organization and shopping workflow</li>
+                      <li>User flows including registration, login, household invites, and member management</li>
+                  </ul>
+              </div>
+          </div>
+
+          <div class="cs-actions" style="margin-top: .9rem;">
+              <button class="btn-ghost" data-close-video>Close</button>
+          </div>
       </div>
     </div>
 </body>
