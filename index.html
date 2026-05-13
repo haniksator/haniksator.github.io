@@ -8,968 +8,1679 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* Palette (Sage & Sand) */
-    :root {
-      --bg: #faf8f6;       /* oatmilk */
-      --bg-alt: #ffffff;     /* cards */
-      --text: #1f2937;       /* slate-800 */
-      --heading: #0f172a;    /* slate-900 */
-      --accent: #0ea5a4;     /* teal-500 (primary) */
-      --accent-soft: #5eead4;  /* teal-300 for rails/badges */
-      --border: #e9e6e2;     /* warm border */
-      --radius: 14px;
-      --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
-      --ease: cubic-bezier(0.4, 0, 0.2, 1);
-    }
+      :root {
+        --bg: #EDEAE4;
+        --bg-alt: #E3DDD5;
 
-    <!-- Force light mode -->
-    :root {
-      color-scheme: light;
-    }
+        --panel: rgba(244, 240, 233, 0.88);
+        --panel-solid: #F4F1EC;
 
-    <!-- Deactivates dark mode, if I want to bring back, delete second part of conditional -->
-    @media (prefers-color-scheme: dark) and (max-width:0px) {
-      :root{
-        --bg: #0b1320;      /* inky blue */
-        --bg-alt: #0f1828;
-        --text: #e5eef7;
-        --heading: #ffffff;
-        --accent: #2dd4bf;   /* a bit brighter in dark */
-        --accent-soft: #134e4a;
-        --border: #1c2740;
-        --shadow: 0 10px 28px rgba(0,0,0,.35);
+        --text: #2E2A26;
+        --heading: #1F1B18;
+
+        --accent: #87907F;
+        --accent-hover: #737C6C;
+
+        --border: rgba(70, 60, 50, 0.10);
+        --border-strong: rgba(70, 60, 50, 0.18);
+
+        --shadow:
+        0 10px 30px rgba(0,0,0,.10),
+        0 2px 8px rgba(0,0,0,.05);
+
+        --ease: cubic-bezier(0.4, 0, 0.2, 1);
       }
-    }
 
-    /*  Base reset */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: "Inter", "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.65;
-      overflow-x: hidden;
-    }
-    a { text-decoration: none; color: inherit; }
-    img { max-width: 100%; display: block; }
-
-    /* Utilities */
-    .container {
-        max-width: 1160px;
-        margin-inline: auto;
-        padding-inline: 1.6rem;
-    }
-    .section {
-        padding-block: 5rem;
-    }
-    .section-title {
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: var(--heading);
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    /* Boot overlay (terminal intro) */
-    .boot-overlay{
-      position: fixed;
-      inset:0;
-      background: radial-gradient(1200px 600px at 50% -10%, #0b1320, #05080f 70%);
-      color:#e5eef7;
-      font: 0.95rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
-      padding: 2rem;
-      overflow-y: auto;
-      z-index:1000;
-      transition: opacity .6s var(--ease);
-    }
-    .boot-overlay.hidden{
-        opacity:0;
-        pointer-events:none;
-    }
-
-    /* Header */
-    header{
-      position: sticky; 
-      top:0; 
-      z-index:500;
-      background: rgba(255,255,255,.7);
-      backdrop-filter: saturate(160%) blur(10px);
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 6px 18px rgba(0,0,0,.04);
-    }
-
-    <!-- Deactivates dark mode, if I want to bring back, delete second part of conditional -->
-    @media (prefers-color-scheme: dark) and (max-width:0px) {
-      header{ background: rgba(11,19,32,.6); }
-    }
-
-    .nav-wrap { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.6rem; }
-    header h1 { font-size: 1.5rem; font-weight: 700; color: var(--heading); }
-    nav ul { display: flex; gap: 1.6rem; list-style: none; }
-    nav a{ position:relative; font-weight:600; padding-block:.25rem; color:var(--heading); transition: color .25s var(--ease); }
-    nav a::after{
-      content:""; position:absolute; left:0; bottom:-6px; width:100%; height:3px;
-      background: linear-gradient(90deg,var(--accent), transparent);
-      transform:scaleX(0); transform-origin:left; transition:transform .35s var(--ease);
-      border-radius:3px;
-    }
-    nav a:hover{ color: var(--accent); }
-    nav a:hover::after{ transform:scaleX(1); }
-
-    /* Hero */
-    .hero {
-      min-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-    .hero h2 {
-      font-size: clamp(2.6rem, 6vw, 3.8rem);
-      font-weight: 700;
-      color: var(--heading);
-      margin-bottom: 1rem;
-    }
-    .hero p {
-        font-size: 1.25rem;
-        max-width: 680px;
-    }
-
-    /* Timeline (Fixed) */
-    .timeline{
-      --dot-size: 24px;
-      --dotHalf: calc(var(--dot-size)/2);
-      --rail-gap: 2rem;
-      position: relative;
-      display: grid;
-      justify-items: center;
-      row-gap: 2.4rem;
-      margin-top: 1.2rem;
-    }
-
-    /* Center rail (Fixed) */
-    .timeline::before{
-      content: "";
-      position: absolute;
-      top: 0; bottom: 0;
-      left: 50%;
-      width: 4px;
-      transform: translateX(-50%);
-      background: var(--accent-soft);
-      border-radius: 2px;
-      opacity: .45;
-    }
-
-    .timeline-item{
-      position: relative;
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.8rem;     /* add padding */
-      box-shadow: var(--shadow);
-      width: calc(50% - var(--rail-gap));
-    }
-    .timeline-item:nth-child(odd){
-        justify-self: start;
-    }
-    .timeline-item:nth-child(even){
-        justify-self: end;
-    }
-
-    /* Dots */
-    .timeline-item::after{
-      content: "";
-      position: absolute;
-      top: 1.8rem;
-      width: var(--dot-size);
-      height: var(--dot-size);
-      border-radius: 50%;
-      background: var(--bg);
-      border: 4px solid var(--accent);
-      box-shadow: 0 4px 10px rgba(14,165,164,.15);
-    }
-    .timeline-item:nth-child(odd)::after{
-      right: calc(-1 * var(--rail-gap) - var(--dotHalf));
-    }
-    .timeline-item:nth-child(even)::after{
-      left:  calc(-1 * var(--rail-gap) - var(--dotHalf));
-    } 
-
-    /* Typography inside cards */
-    .timeline-item h4{ font-size:1.1rem; font-weight:700; color:var(--heading); margin-bottom:.5rem; }
-    .timeline-item span{ font-size:.94rem; color:var(--accent); display:block; margin-bottom:.7rem; }
-    .timeline-item ul{ list-style:none; display:grid; gap:.45rem; }
-    .timeline-item li{ position:relative; padding-left:1rem; }
-    .timeline-item li::before{ content:"•"; position:absolute; left:0; top:0; color:var(--accent); }
-
-    /* Mobile */
-    @media (max-width: 900px){
-      .timeline{ display:block; padding-left: calc(var(--dot-size) + 1rem); }
-      .timeline::before{ left: var(--dotHalf); transform:none; }
-      .timeline-item,
-      .timeline-item:nth-child(even){ width:100%; margin-bottom:2rem; }
-      .timeline-item::after,
-      .timeline-item:nth-child(even)::after{
-        left: calc(-1 * var(--dot-size) - 1rem + var(--dotHalf)); right:auto;
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
-    }
 
-    /* Skills */
-    .skill-group { margin-top: 2rem; }
-    .skill-group h4 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--accent-soft);
-      margin-bottom: 0.8rem;
-      text-align: center;
-    }
-    .skills-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      justify-content: center;
-    }
-    .badge{
-      padding: .45rem .9rem;
-      border-radius: 40px;
-      font-size: .9rem;
-      font-weight: 600;
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
 
-      background: rgba(45,212,191,0.12);
-      border: 1px solid rgba(45,212,191,0.35);
-      color: var(--text);
+      img {
+        max-width: 100%;
+        display: block;
+      }
 
-      transition: transform .25s var(--ease),
-                  box-shadow .25s var(--ease)
-                  background .25s var(--ease),
-                  border-color .25s var(--ease);
-    }
-
-    <!-- Deactivates dark mode, if I want to bring back, delete second part of conditional -->
-    @media (prefers-color-scheme: dark) and (max-width:0px) {
-      .badge{
-        background: rgba(45,212,191,0.20);
-        border-color: rgba(45,212,191,0.45);
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: var(--bg);
         color: var(--text);
+        font-family: "Inter", "Segoe UI", sans-serif;
       }
-    }
 
-    .badge:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(45,212,191,0.15);
-        background: rgba(45,212,191,0.27);
-        border-color: rgba(45,212,191,0.60);
-    }
+      /* Desktop */
+      #desktop {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
 
-    /* Projects (fixed) */
-    .project-link{
-      appearance: none;
-      -webkit-appearance: none;
-      background: none;
-      border: none;
-      padding: 0;
-      margin: 0;
-      color: var(--accent);
-      font-weight: 700;
-      font-size: .95rem;
-      line-height: 1;
-      display: inline-flex; align-items: center; gap: .35rem; cursor: pointer;
-    }
-    .project-link:hover{ text-decoration: underline; text-underline-offset: 3px; }
-    .project-link:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
-    .project-grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.8rem;
-      margin-top: 2rem;
-    }
-    .project-card{
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 1.8rem;
-      display: flex;
-      flex-direction: column;
-      gap: .6rem;
-      height: 100%;
-    }
-    .project-card h3{ font-size:1.2rem; font-weight:700; color:var(--heading); }
-    .project-card p{ font-size:.98rem; color:var(--text); opacity:.9; }
-    .project-card .project-link{
-      margin-top: auto;
-      align-self: flex-start;
-    }
+        background:
+        radial-gradient(
+          circle at 15% 20%,
+          rgba(116,128,107,.38),
+          transparent 30%
+        ),
 
-    .project-card:hover{ transform: translateY(-6px); box-shadow: 0 16px 28px rgba(15,23,42,.10); }
+        radial-gradient(
+          circle at 85% 75%,
+          rgba(92,104,85,.30),
+          transparent 32%
+        ),
 
-    .project-actions{
-      display:flex;
-      gap:.9rem;
-      flex-wrap:wrap;
-      margin-top:auto;
-      align-self:flex-start;
-    }
+        radial-gradient(
+          circle at 50% 50%,
+          rgba(140,150,132,.12),
+          transparent 45%
+        ),
 
-    /* Contact (elevated card with actions) */
-    .contact-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: calc(var(--radius) + 4px);
-      padding: 2rem;
-      box-shadow: var(--shadow);
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 1.6rem 2rem;
-      align-items: center;
-    }
+        linear-gradient(
+          145deg,
+          #2C322B 0%,
+          #3E463D 28%,
+          #596255 58%,
+          #6E7768 78%,
+          #7C8574 100%
+        );
 
-    .contact-lead{ color:#334155; }
-
-     <!-- Deactivates dark mode, if I want to bring back, delete second part of conditional -->
-    @media (prefers-color-scheme: dark) and (max-width:0px){
-      .contact-lead{ color:#c7d2fe; }
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .35rem .7rem;
-      border-radius: 999px;
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
-      font-size: .9rem;
-      color: var(--heading);
-    }
-
-    .contact-rows {
-      display: grid;
-      gap: .6rem;
-    }
-
-    .contact-row {
-      display: flex;
-      align-items: center;
-      gap: .6rem;
-      font-weight: 600;
-      color: var(--heading);
-    }
-
-    .contact-row small {
-      font-weight: 500;
-      color: #475569;
-    }
-
-    .contact-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .6rem;
-      justify-content: flex-end;
-      align-items:center;
-    }
-    /* Normalize ALL action buttons */
-    .btn, .btn-primary, .btn-ghost{
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .9rem 1.2rem;      /* size match */
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: .95rem;
-      line-height: 1;
-    }
-
-    /* Primary stays teal */
-    .btn, .btn-primary{
-      background: var(--accent);
-      color: #fff;
-      border: 1px solid transparent;
-      box-shadow: 0 6px 16px rgba(14,165,164,.18);
-    }
-    .btn:hover, .btn-primary:hover{
-      transform: translateY(-2px);
-      filter: brightness(1.05);
-      box-shadow: 0 10px 22px rgba(14,165,164,.22);
-    }
-
-    /* Ghost gets proper size + color */
-    .btn-ghost{
-      background: var(--bg);
-      color: var(--heading);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover{
-      border-color: var(--accent);
-      box-shadow: 0 8px 18px rgba(14,165,164,.10);
-    }
-
-    /* Ensure icons match button size */
-    .btn svg, .btn-primary svg, .btn-ghost svg { width: 18px; height: 18px; }
-
-
-    #resume .center { margin-top: 2.2rem; }
-
-    /* Responsive stack */
-    @media (max-width: 900px) {
-      .contact-card {
-        grid-template-columns: 1fr;
-        padding: 1.6rem;
+        background-size: cover;
+        overflow: hidden;
       }
-      .contact-actions { justify-content: flex-start; }
-    }
 
-    .center { display: flex; justify-content: center; }
+      #desktop::before {
+        content: "";
 
-    /* Footer (refreshed version) ──────── */
-  footer{
-    position: relative;
-    /* layered, very light teal wash that works in light & dark */
-    background:
-      linear-gradient(180deg, rgba(13,148,136,.06), rgba(13,148,136,.02) 55%, transparent),
-      linear-gradient(0deg, rgba(14,165,164,.05), transparent 60%);
-    color: var(--text);
-    padding-block: 3rem 1.5rem;
-    border-top: 1px solid var(--border);
-  }
+        position: absolute;
 
-  /* thin under-glow at the very top edge */
-  footer::before{
-    content:"";
-    position:absolute; inset:0 0 auto 0; height:3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent-soft));
-    opacity:.35;
-  }
+        width: 1200px;
+        height: 1200px;
 
-  .footer-inner{
-    max-width: 1160px;
-    margin-inline: auto;
-    padding-inline: 1.6rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 2rem;
-  }
+        left: -300px;
+        top: -350px;
 
-  /* stack items vertically with breathing room */
-  .footer-col{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: .5rem;
-  }
+        background:
+        radial-gradient(
+          circle,
+          rgba(116,128,107,.45),
+          rgba(116,128,107,.18) 35%,
+          transparent 70%
+        );
 
-  .footer-col h4{
-    font-size: .98rem;
-    font-weight: 800;
-    color: var(--heading);
-    letter-spacing: .01em;
-    opacity: .95;
-    margin-bottom: .15rem;
-  }
+        filter: blur(120px);
 
-  /* links pick up a soft accent on hover + reuse your gradient underline */
-  .footer-col a{
-    position: relative;
-    display: inline-block;
-    padding-block: .22rem .42rem;
-    font-size: .94rem;
-    color: var(--text);
-    opacity: .9;
-    text-decoration: none;
-    transition: color .25s var(--ease), opacity .25s var(--ease);
-  }
-  .footer-col a::after{
-    content:"";
-    position:absolute; left:0; bottom:0; width:100%; height:3px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform .35s var(--ease);
-    border-radius: 3px;
-  }
-  .footer-col a:hover,
-  .footer-col a:focus-visible{
-    color: var(--accent);
-    opacity: 1;
-  }
-  .footer-col a:hover::after,
-  .footer-col a:focus-visible::after{
-    transform: scaleX(1);
-  }
-  .footer-col a:focus-visible{
-    outline: 2px solid var(--accent);
-    outline-offset: 3px; border-radius: 6px;
-  }
+        opacity: .95;
 
-  /* profile card stays the same, but headings/avatars pop a touch */
-  .profile-card{ display:flex; flex-direction:column; align-items:center; gap:.65rem; text-align:center; }
-  .profile-card span{ opacity:.95; }
+        pointer-events: none;
+      }
 
-  /* sub-footer calmer & consistent */
-  .sub-footer{
-    margin-top:2rem;
-    padding-top:1rem;
-    border-top: 1px solid var(--border);
-    text-align:center;
-    font-size:.9rem;
-    color: var(--text);
-    opacity:.8;
-  }
+      #desktop::after {
+        content: "";
 
-  /* mobile centering */
-  @media (max-width:700px){
-    .footer-inner{ grid-template-columns:1fr; text-align:center; }
-    .footer-col{ align-items: center; }
-  }
+        position: absolute;
 
+        width: 900px;
+        height: 900px;
 
-    .profile-card{ display:flex; flex-direction:column; align-items:center; gap:.65rem; text-align:center; }
-    
-    .avatar{
-      width:72px; 
-      height:72px; 
-      border-radius:50%;
-      background: var(--border);
-      box-shadow: 0 0 0 3px var(--bg), 0 6px 16px rgba(0,0,0,.06);
-      overflow: hidden;
-      position: relative;
-    }
-    .avatar-img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      display: block;
-    }
+        right: -250px;
+        bottom: -250px;
 
-    .profile-card .avatar{ transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
-    .profile-card .avatar:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 0 0 3px var(--bg), 0 10px 22px rgba(0,0,0,.12);
-    }
+        background:
+        radial-gradient(
+          circle,
+          rgba(170,180,160,.14),
+          transparent 70%
+        );
 
-    .version{ font-size:.82rem; color: var(--border); }
+        filter: blur(100px);
 
-    /* Scroll reveal */
-    .reveal {
-      opacity: 0; transform: translateY(70px);
-      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); will-change: opacity, transform;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+        pointer-events: none;
+      }
 
-    /* Toast (Welcome!) */
-    .toast {
-      position: fixed; top: 18px; left: 50%; transform: translate(-50%, -10px);
-      background: var(--heading); color: var(--bg); padding: 0.85rem 1.1rem; border-radius: 999px;
-      box-shadow: var(--shadow); opacity: 0; z-index: 1200;
-      transition: opacity .45s var(--ease), transform .45s var(--ease);
-    }
-    .toast.visible { opacity: 1; transform: translate(-50%, 0); }
+      /* top bar css beginning */
+      .top-bar {
+        position: fixed;
+        top: 0;
 
-    /* Coming Soon modal */
-    .cs-modal{ position:fixed; inset:0; z-index:1300; display:grid; place-items:center;
-      opacity:0; pointer-events:none; transition:opacity .25s var(--ease); }
-    .cs-modal[aria-hidden="false"]{ opacity:1; pointer-events:auto; }
-    .cs-backdrop{ position:absolute; inset:0; background: rgba(2,6,23,.55); backdrop-filter: blur(4px);
-      border:0; padding:0; margin:0; }
-    .cs-panel{ position:relative; width:min(520px, calc(100vw - 2rem));
-      background: var(--bg-alt); color: var(--text);
-      border:1px solid var(--border); border-radius: calc(var(--radius) + 2px);
-      box-shadow: 0 30px 60px rgba(0,0,0,.35); padding: 1.4rem 1.4rem 1.1rem;
-      transform: translateY(12px) scale(.98); opacity:.98;
-      transition: transform .28s var(--ease), opacity .28s var(--ease); }
-    .cs-modal[aria-hidden="false"] .cs-panel{ transform: translateY(0) scale(1); opacity:1; }
+        width: 100%;
+        height: 40px;
 
-    .cs-head{ display:flex; align-items:center; gap:.6rem; margin-bottom:.4rem; }
-    .cs-head svg{ width:22px; height:22px; color: var(--accent); }
-    .cs-head h3{ font-size:1.1rem; font-weight:800; color: var(--heading); }
+        background: rgba(245, 241, 235, 0.72);
+        backdrop-filter: blur(14px);
 
-    .cs-body{ font-size:.98rem; opacity:.9; margin:.4rem 0 .9rem; }
-    .cs-actions{ display:flex; gap:.6rem; justify-content:flex-end; flex-wrap:wrap; }
+        border-bottom: 1px solid var(--border);
 
-    /* Respect dark mode automatically via your tokens */
-    @media (prefers-reduced-motion: reduce){
-      .cs-modal, .cs-panel{ transition:none; }
-    }
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-    .cs-panel-video{
-      width: min(820px, calc(100vw - 2rem));
-    }
+        padding: 0 1rem;
 
-    .video-notes{
-      margin-top: 1rem;
-      padding-top: .9rem;
-      border-top: 1px solid var(--border);
-      font-size: .95rem;
-    }
+        color: var(--text);
 
-    .video-notes h4{
-      font-size: 1.02rem;
-      font-weight: 800;
-      color: var(--heading);
-      margin-bottom: .45rem;
-    }
+        z-index: 999;
+      }
 
-    .video-notes ul{
-      list-style: none;
-      display: grid;
-      gap: .35rem;
-    }
+      .top-left,
+      .top-center,
+      .top-right {
+        display: flex;
+        align-items: center;
+        gap: .9rem;
+      }
 
-    .video-notes li{
-      position: relative;
-      padding-left: 1rem;
-      opacity: .9;
-    }
+      .top-left {
+        font-weight: 600;
+      }
 
-    .video-notes li::before{
-      content: "•";
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-    }
-    /* Scroll progress bar */
-    .scroll-progress {
-      position: fixed;
-      inset: 0 auto auto 0;
-      height: 3px;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), transparent);
-      z-index: 9999;
-      border-radius: 0 3px 3px 0;
-      transition: width .12s var(--ease);
-    }
+      .top-center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
 
-    @media (prefers-reduced-motion: reduce){
-        .scroll-progress{ transition: none; }
-    }
+        opacity: .72;
 
-    /* Magnetic hover */
-    .magnet {
-        will-change: transform;
-        transition: transform .15s var(--ease);
-    }
-    .magnet:hover {
-        transform: translateZ(0);
-    }
-    @media (prefers-reduced-motion: reduce){
-        .magnet {
-            transition:none;
+        font-size: .88rem;
+      }
+
+      .top-right {
+        margin-right: 2rem;
+
+        font-size: .88rem;
+
+        opacity: .82;
+      }
+      /* top bar css ending */
+
+      .dock {
+        position: fixed;
+
+        left: 16px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        background: rgba(228, 224, 215, 0.68);
+
+        border: 1px solid var(--border);
+
+        padding: .8rem;
+
+        border-radius: 20px;
+
+        backdrop-filter: blur(18px);
+
+        box-shadow: var(--shadow);
+      }
+
+      .dock-icon {
+        width: 52px;
+        height: 52px;
+
+        border: 1px solid transparent;
+        border-radius: 14px;
+
+        background: rgba(255,255,255,.24);
+
+        color: var(--text);
+
+        cursor: pointer;
+
+        font-size: 1.3rem;
+
+        transition: .2s ease;
+      }
+
+      .dock-icon:hover {
+        transform: scale(1.08);
+        background: rgba(135,144,127,.18);
+        border-color: rgba(135,144,127,.22);
+      }
+
+      .dock-icon.active-dock {
+        background: rgba(135,144,127,.22);
+        border-color: rgba(135,144,127,.32);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+        position: relative;
+      }
+
+      .dock-icon.active-dock::after {
+        content: "";
+
+        position: absolute;
+        left: -10px;
+        top: 50%;
+
+        width: 5px;
+        height: 5px;
+
+        border-radius: 50%;
+
+        background: var(--accent);
+
+        transform: translateY(-50%);
+      }
+
+      .desktop-icons {
+        padding-top: 80px;
+        padding-left: 120px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .desktop-icon {
+        width: 80px;
+
+        background: none;
+        border: none;
+
+        color: #F3F6EE;
+
+        cursor: pointer;
+
+        text-align: center;
+      }
+
+      .desktop-icon svg {
+        width: 34px;
+        height: 34px;
+
+        stroke-width: 1.9;
+
+        margin: 0 auto;
+
+        color: #F3F6EE;
+
+        filter: drop-shadow(0 3px 8px rgba(0,0,0,.45));
+      }
+
+      .desktop-icon p {
+        margin-top: .4rem;
+
+        font-size: .85rem;
+        font-weight: 500;
+
+        color: #F3F6EE;
+
+        text-shadow:
+        0 2px 8px rgba(0,0,0,.65),
+        0 0 14px rgba(0,0,0,.35);
+      }
+
+      /* window css beginning */
+      .window {
+        position: absolute;
+
+        width: 700px;
+        height: 500px;
+
+        background: rgba(236, 233, 225, 0.84);
+
+        border: 1px solid var(--border-strong);
+
+        border-radius: 18px;
+
+        backdrop-filter: blur(18px);
+
+        overflow: hidden;
+
+        box-shadow: var(--shadow);
+
+        top: 120px;
+        left: 240px;
+
+        display: flex;
+        flex-direction: column;
+
+        color: var(--text);
+
+        opacity: 1;
+        transform: scale(1);
+
+        transition:
+          opacity .18s var(--ease),
+          transform .18s var(--ease),
+          box-shadow .18s var(--ease),
+          border-color .18s var(--ease);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .window.window-opening {
+        animation: windowOpen .18s var(--ease);
+      }
+
+      .window.active-window {
+        border-color: rgba(135,144,127,.34);
+
+        box-shadow:
+          0 18px 45px rgba(0,0,0,.16),
+          0 0 0 1px rgba(135,144,127,.18);
+      }
+
+      .window.maximized {
+        width: calc(100vw - 140px);
+        height: calc(100vh - 90px);
+
+        top: 56px !important;
+        left: 100px !important;
+
+        border-radius: 18px;
+      }
+
+      @keyframes windowOpen {
+        from {
+          opacity: 0;
+          transform: scale(.96) translateY(8px);
         }
-    }
+
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .window-header {
+        height: 52px;
+
+        display: flex;
+        align-items: center;
+
+        gap: 1rem;
+
+        padding: 0 1rem;
+
+        background: rgba(135,144,127,.10);
+
+        border-bottom: 1px solid var(--border);
+
+        color: var(--heading);
+
+        font-weight: 600;
+
+        cursor: grab;
+      }
+
+      .window-controls {
+        display: flex;
+        gap: .45rem;
+      }
+
+      .window-controls span {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+
+      .close {
+        background: #ff5f57;
+      }
+
+      .minimize {
+        background: #febc2e;
+      }
+
+      .maximize {
+        background: #28c840;
+      }
+
+      .window-content {
+        padding: 1.2rem;
+        overflow: auto;
+        flex: 1;
+      }
+
+      .window-content h2 {
+        color: var(--heading);
+        margin-bottom: .75rem;
+      }
+
+      /* window css ending */
+
+      /* terminal css beginning */
+      .terminal-content {
+        display: flex;
+        flex-direction: column;
+
+        background: rgba(44, 40, 36, 0.94);
+        color: #D8E0CC;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      #terminalOutput {
+        flex: 1;
+
+        overflow-y: auto;
+
+        padding-bottom: 1rem;
+      }
+
+      .terminal-line,
+        .terminal-response {
+        margin-bottom: .55rem;
+
+        line-height: 1.6;
+      }
+
+      .terminal-command {
+        color: #A8C090;
+      }
+
+      .terminal-input-row {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+
+        border-top: 1px solid rgba(255,255,255,.06);
+
+        padding-top: 1rem;
+      }
+
+      .terminal-prompt {
+        color: #A8C090;
+
+        white-space: nowrap;
+      }
+
+      #terminalInput {
+        flex: 1;
+
+        background: transparent;
+
+        border: none;
+        outline: none;
+
+        color: #D8E0CC;
+
+        font: inherit;
+      }
+      /* terminal css ending */
+
+      /* skills css beginning */
+      .config-content {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        background: rgba(250,248,244,.22);
+
+        line-height: 1.65;
+        overflow: auto;
+        padding: 1rem 1.2rem;
+      }
+
+      .config-content pre {
+        white-space: pre-wrap;
+        color: var(--text);
+
+        font-size: .95rem;
+        text-align: left;
+        margin: 0;
+        padding: 0;
+      }
+      /* skills css ending */
+
+      /* about css beginning */
+      .about-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .about-hero {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .about-hero h1 {
+        font-size: 2rem;
+        color: var(--heading);
+        margin-bottom: .4rem;
+      }
+
+      .about-subtitle {
+        max-width: 520px;
+        line-height: 1.7;
+        opacity: .82;
+      }
+
+      .status-pill {
+        padding: .5rem .9rem;
+
+        border-radius: 999px;
+
+        background: rgba(135,144,127,.14);
+
+        border: 1px solid rgba(135,144,127,.18);
+
+        color: var(--accent);
+
+        font-size: .82rem;
+        font-weight: 600;
+
+        white-space: nowrap;
+      }
+
+      .about-grid {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 1rem;
+      }
+
+      .about-card {
+        padding: 1rem;
+
+        border-radius: 14px;
+
+        background: rgba(230,226,218,.72);
+
+        border: 1px solid var(--border);
+      }
+
+      .about-label {
+        display: inline-block;
+
+        margin-bottom: .55rem;
+
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+
+        opacity: .58;
+      }
+
+      .about-card p {
+        line-height: 1.6;
+      }
+
+      .about-terminal {
+        margin-top: .5rem;
+
+        padding: 1.2rem;
+
+        border-radius: 14px;
+
+        background: rgba(36,32,28,.94);
+
+        color: #D8E0CC;
+
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+        line-height: 1.8;
+      }
+
+      .about-terminal span {
+        color: #A8C090;
+      }
+
+      .terminal-response {
+        opacity: .88;
+        margin-bottom: 1rem;
+      }
+      /* about css ending */
+
+
+      /* projects css beginning */
+      .projects-content {
+        display: grid;
+        grid-template-columns: 190px 1fr;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .projects-sidebar {
+        padding: 1rem;
+        border-right: 1px solid var(--border);
+        background: rgba(135,144,127,.08);
+      }
+
+      .sidebar-title {
+        margin-bottom: .8rem;
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        opacity: .55;
+      }
+
+      .project-file {
+        width: 100%;
+        display: block;
+        padding: .7rem .75rem;
+        margin-bottom: .35rem;
+
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 10px;
+
+        color: var(--text);
+        font: inherit;
+        text-align: left;
+
+        cursor: pointer;
+      }
+
+      .project-file:hover,
+      .project-file.active {
+        background: rgba(135,144,127,.14);
+        border-color: rgba(135,144,127,.18);
+      }
+
+      .project-details {
+        padding: 1.4rem;
+        overflow: auto;
+      }
+
+      .project-panel {
+        display: none;
+      }
+
+      .project-panel.active {
+        display: block;
+      }
+
+      .project-path {
+        margin-bottom: .7rem;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: .85rem;
+        opacity: .58;
+      }
+
+      .project-panel h2 {
+        margin-bottom: .75rem;
+        color: var(--heading);
+      }
+
+      .project-panel p {
+        max-width: 620px;
+        line-height: 1.7;
+      }
+
+      .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin: 1.2rem 0;
+      }
+
+      .project-tags span {
+        padding: .4rem .65rem;
+        border-radius: 999px;
+        background: rgba(135,144,127,.13);
+        border: 1px solid rgba(135,144,127,.16);
+        font-size: .82rem;
+      }
+
+      .project-actions {
+        display: flex;
+        gap: .7rem;
+        flex-wrap: wrap;
+        margin-top: 1.2rem;
+      }
+
+      .project-link {
+        padding: .65rem .9rem;
+        border-radius: 999px;
+
+        background: rgba(46,42,38,.92);
+        color: #F4F1EC;
+
+        border: 1px solid rgba(46,42,38,.12);
+
+        font: inherit;
+        font-weight: 600;
+
+        cursor: pointer;
+      }
+
+      .project-link:hover {
+        transform: translateY(-1px);
+        background: var(--accent);
+      }
+
+      .cs-modal {
+        position: fixed;
+        inset: 0;
+
+        z-index: 2000;
+
+        display: grid;
+        place-items: center;
+
+        opacity: 0;
+        pointer-events: none;
+
+        transition: opacity .22s var(--ease);
+      }
+
+      .cs-modal[aria-hidden="false"] {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .cs-backdrop {
+        position: absolute;
+        inset: 0;
+
+        border: none;
+        padding: 0;
+        margin: 0;
+
+        background: rgba(46, 42, 38, .34);
+        backdrop-filter: blur(6px);
+
+        cursor: default;
+      }
+
+      .cs-panel {
+        position: relative;
+
+        width: min(520px, calc(100vw - 2rem));
+
+        background: rgba(248, 244, 238, .94);
+
+        border: 1px solid var(--border-strong);
+        border-radius: 18px;
+
+        box-shadow:
+        0 24px 70px rgba(0,0,0,.22),
+        0 0 0 1px rgba(255,255,255,.28);
+
+        color: var(--text);
+
+        padding: 0;
+
+        overflow: hidden;
+
+        transform: translateY(10px) scale(.98);
+
+        transition: transform .22s var(--ease);
+      }
+
+      .cs-modal[aria-hidden="false"] .cs-panel {
+        transform: translateY(0) scale(1);
+      }
+
+      .cs-head {
+        height: 48px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 1rem;
+
+        background: rgba(255,255,255,.26);
+
+        border-bottom: 1px solid var(--border);
+      }
+
+      .cs-head h3 {
+        font-size: 1rem;
+        font-weight: 700;
+
+        color: var(--heading);
+      }
+
+      .cs-body {
+        padding: 1rem 1.1rem;
+
+        line-height: 1.7;
+
+        opacity: .86;
+      }
+
+      .cs-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: .7rem;
+
+        padding: 0 1.1rem 1.1rem;
+      }
+
+      .cs-panel-video {
+        width: min(860px, calc(100vw - 2rem));
+      }
+
+      .cs-actions .btn,
+      .cs-actions .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: .65rem .9rem;
+
+        border-radius: 999px;
+
+        font: inherit;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: .18s ease;
+      }
+
+      .cs-actions .btn {
+        background: rgba(46,42,38,.92);
+        color: #F4F1EC;
+
+        border: 1px solid rgba(46,42,38,.12);
+      }
+
+      .cs-actions .btn:hover {
+        background: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .cs-actions .btn-ghost {
+        background: rgba(255,255,255,.28);
+        color: var(--text);
+
+        border: 1px solid var(--border);
+      }
+
+      .cs-actions .btn-ghost:hover {
+        border-color: var(--border-strong);
+        transform: translateY(-1px);
+      }
+
+      /* projects css ending */
+
+      /* resume css beginning */
+      .resume-content {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .resume-toolbar {
+        height: 48px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 0 1rem;
+
+        border-bottom: 1px solid var(--border);
+
+        background: rgba(255,255,255,.18);
+
+        font-size: .9rem;
+      }
+
+      .resume-download {
+        padding: .5rem .75rem;
+
+        border-radius: 999px;
+
+        background: rgba(46,42,38,.92);
+        color: #F4F1EC;
+
+        font-size: .85rem;
+        font-weight: 600;
+      }
+
+      .resume-download:hover {
+        background: var(--accent);
+        }
+
+      .resume-frame {
+        width: 100%;
+        height: 100%;
+        min-height: 100%
+        border: none;
+
+        background: #fff;
+      }
+      /* resume css ending */
+
+      /* contact css beginning */
+      .contact-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .contact-hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .contact-hero h2 {
+        margin-bottom: .45rem;
+        color: var(--heading);
+      }
+
+      .contact-hero p {
+        max-width: 520px;
+        line-height: 1.7;
+        opacity: .82;
+      }
+
+      .contact-status {
+        padding: .5rem .9rem;
+
+        border-radius: 999px;
+
+        background: rgba(135,144,127,.14);
+
+        border: 1px solid rgba(135,144,127,.18);
+
+        color: var(--accent);
+
+        font-size: .82rem;
+        font-weight: 600;
+
+        white-space: nowrap;
+      }
+
+      .contact-grid {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 1rem;
+      }
+
+      .contact-card {
+        padding: 1rem;
+
+        border-radius: 14px;
+
+        background: rgba(230,226,218,.72);
+
+        border: 1px solid var(--border);
+      }
+
+      .contact-label {
+        display: inline-block;
+
+        margin-bottom: .55rem;
+
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+
+        opacity: .58;
+      }
+
+      .contact-value {
+        color: var(--text);
+
+        line-height: 1.6;
+
+        word-break: break-word;
+      }
+
+      .contact-actions {
+        display: flex;
+        gap: .8rem;
+        flex-wrap: wrap;
+      }
+
+      .contact-button {
+        padding: .7rem 1rem;
+
+        border-radius: 999px;
+
+        border: none;
+
+        background: rgba(46,42,38,.92);
+        color: #F4F1EC;
+
+        font: inherit;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: .18s ease;
+      }
+
+      .contact-button:hover {
+        transform: translateY(-1px);
+
+        background: var(--accent);
+      }
+
+      .contact-button.secondary {
+        background: rgba(255,255,255,.28);
+
+        color: var(--text);
+
+        border: 1px solid var(--border);
+      }
+      /* contact css ending */
+
+      .boot-overlay {
+        position: fixed;
+        inset: 0;
+
+        background: #000;
+
+        color: #e5eef7;
+
+        font: 0.95rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+
+        padding: 2rem;
+
+        overflow-y: auto;
+
+        z-index: 1000;
+
+        transition: opacity .6s var(--ease);
+      }
+
+      .boot-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .video-notes {
+        margin-top: 1rem;
+        padding-top: .9rem;
+
+        border-top: 1px solid var(--border);
+
+        font-size: .95rem;
+      }
+
+      .video-notes h4 {
+        font-size: 1.02rem;
+        font-weight: 800;
+
+        color: var(--heading);
+
+        margin-bottom: .45rem;
+      }
+
+      .video-notes ul {
+        list-style: none;
+
+        display: grid;
+        gap: .35rem;
+      }
+
+      .video-notes li {
+        position: relative;
+
+        padding-left: 1rem;
+
+        opacity: .9;
+      }
+
+      .video-notes li::before {
+        content: "•";
+
+        position: absolute;
+        left: 0;
+
+        color: var(--accent);
+      }
+
+      .video-player {
+        width: 100%;
+
+        border-radius: 14px;
+
+        border: 1px solid var(--border);
+
+        background: #111;
+
+        display: block;
+      }
+
+      .video-wrap {
+        padding: 1rem;
+      }
 
       #skipBoot {
-          position: absolute;
-          top: 20px;
-          right: 20px;
-          padding: 6px 12px;
-          background: #111;
-          color: #00ff88;
-          border: 1px solid #00ff88;
-          font-size: 0.9rem;
-          border-radius: 4px;
-          cursor: pointer;
-          opacity: 0.7;
-          transition: opacity 0.2s ease;
-          z-index: 9999;
-        }
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 6px 12px;
 
-        #skipBoot:hover {
-          opacity: 1;
-        }
+        background: rgba(30,28,26,.92);
+        color: #D8E0CC;
 
-      #buildStamp {
-          color: rgba(148, 163, 184, 0.75); /* slate-300 with opacity */
-          font-size: 0.85rem;
-          letter-spacing: 0.5px;
-        }
+        border: 1px solid rgba(255,255,255,.08);
+        font-size: 0.9rem;
+        border-radius: 6px;
+
+        cursor: pointer;
+        opacity: 0.82;
+        transition: opacity 0.2s ease;
+
+        z-index: 9999;
+      }
+
+      #skipBoot:hover {
+        opacity: 1;
+      }
+
+      .dock-icon svg {
+        width: 22px;
+        height: 22px;
+        stroke-width: 1.8;
+      }
+
+      .desktop-icon svg {
+        width: 34px;
+        height: 34px;
+        stroke-width: 1.7;
+        margin: 0 auto;
+      }
   </style>
 </head>
 <body>
-  <div class="scroll-progress" id="scrollProgress"></div>
   <!-- Boot overlay -->
   <div class="boot-overlay" id="bootOverlay">
       <button id="skipBoot">Skip Intro</button>
       <div id="bootText"></div>
   </div>
 
-  <!-- Header -->
-  <header>
-    <div class="nav-wrap container">
-      <h1>Hanik Sator</h1>
-      <nav>
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#resume">Resume</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <!-- Main section that represents the desktop environment -->
+  <div id="desktop">
+      <div class="top-bar">
+          <div class="top-left">
+              hanikOS • portfolio v2.1
+          </div>
 
-  <!-- Main -->
-  <main id="mainContent" style="opacity:0;transition:opacity 1s var(--ease);">
-    <!-- Hero Section -->
-    <section class="hero section reveal" id="about">
-      <h2>Hi, I’m Hanik</h2>
-      <p><strong>Software Engineer based in Chicago, specializing in backend development and building reliable, maintainable systems in Java and Python.</strong></p>
-    </section>
+          <div class="top-center">
+              ~/home/hanik
+          </div>
 
-    <!-- Resume Section -->
-    <section id="resume" class="section container">
-      <h2 class="section-title reveal">Experience & Education</h2>
-      <div class="timeline">
-        <div class="timeline-item reveal">
-          <h4>Aubot — Software Engineering Intern</h4>
-          <span>Mar 2025 – Jun 2025 • Remote</span>
-          <ul>
-              <li>Developed and refined interactive coding exercises in <strong>Java</strong>, <strong>Python</strong>, and web technologies.</li>
-              <li>Implemented algorithmic logic and validator functions to ensure consistent and correct exercise outputs.</li>
-              <li>Built learner-facing web UI for challenges using <strong>HTML/CSS</strong> with syntax highlighting & responsive layouts.</li>
-              <li>Created and executed automated test cases across multiple learning tracks to improve overall stability.</li>
-              <li>Contributed to refactoring efforts, improving clarity, maintainability, and performance of existing modules.</li>
-          </ul>
-        </div>
-        <div class="timeline-item reveal">
-          <h4>Whole Foods Market — Bakery Team Member</h4>
-          <span>Sep 2022 – Present • Chicago, IL</span>
-          <ul>
-              <li>Maintained inventory, restocked shelves, and delivered top-tier customer service.</li>
-              <li>Monitored inventory and rotation using FIFO; flagged low-stock and expiring items to minimize waste.</li>
-              <li>Assisted customers with product recommendations, allergen questions, and special orders in a fast-paced environment.</li>
-          </ul>
-        </div>
-        <div class="timeline-item reveal">
-          <h4>DePaul University — B.S. Computer Science</h4>
-          <span>GPA 4.0 • Dean’s List F/W/S 2023–24 & 2024–25 • Grad Dec 2025</span>
-          <ul>
-              <li><strong>Core CS:</strong> Data Structures, Algorithms, Programming Languages</li>
-              <li><strong>Systems:</strong> Operating Systems, Distributed Systems, Computer Systems</li>
-              <li><strong>Software Engineering:</strong> OO Design, Software Testing, Agile</li>
-              <li><strong>Advanced:</strong> Compiler Design</li>
-          </ul>
-        </div>
+          <div class="top-right">
+              <span>◉ online</span>
+              <span id="clock"></span>
+          </div>
       </div>
 
-      <!-- Skills Section -->
-      <h2 class="section-title reveal" style="font-size:2.15rem;margin-top:3.5rem">Technical Skills</h2>
+      <aside class="dock">
+          <button class="dock-icon" data-window="terminalWindow">
+              <i data-lucide="square-terminal"></i>
+          </button>
 
-      <div class="skill-group">
-        <h4>Languages</h4>
-        <div class="skills-list reveal">
-          <span class="badge">Java</span>
-          <span class="badge">Python</span>
-          <span class="badge">C</span>
-          <span class="badge">C++</span>
-          <span class="badge">JavaScript</span>
-          <span class="badge">SQL</span>
-        </div>
+          <button class="dock-icon" data-window="aboutWindow">
+              <i data-lucide="user-round"></i>
+          </button>
+
+          <button class="dock-icon" data-window="skillsWindow">
+              <i data-lucide="settings-2"></i>
+          </button>
+
+          <button class="dock-icon" data-window="projectsWindow">
+              <i data-lucide="folder-open"></i>
+          </button>
+
+          <button class="dock-icon" data-window="resumeWindow">
+              <i data-lucide="file-text"></i>
+          </button>
+
+          <button class="dock-icon" data-window="contactWindow">
+              <i data-lucide="mail"></i>
+          </button>
+      </aside>
+
+      <div class="desktop-icons">
+          <button class="desktop-icon" data-window="aboutWindow">
+              <i data-lucide="user-round"></i>
+              <p>about.txt</p>
+          </button>
+
+          <button class="desktop-icon" data-window="skillsWindow">
+              <i data-lucide="settings-2"></i>
+              <p>skills.config</p>
+          </button>
+
+          <button class="desktop-icon" data-window="projectsWindow">
+              <i data-lucide="folder-open"></i>
+              <p>projects</p>
+          </button>
+
+          <button class="desktop-icon" data-window="resumeWindow">
+              <i data-lucide="file-text"></i>
+              <p>resume.pdf</p>
+          </button>
+
+          <button class="desktop-icon" data-window="contactWindow">
+              <i data-lucide="mail"></i>
+              <p>contact.service</p>
+          </button>
       </div>
 
-      <div class="skill-group">
-        <h4>Frameworks &amp; Tools</h4>
-        <div class="skills-list reveal">
-            <span class="badge">Django</span>
-            <span class="badge">Flask</span>
-            <span class="badge">Spring Boot</span>
-            <span class="badge">HTML / CSS</span>
-            <span class="badge">Git / GitHub</span>
-            <span class="badge">Docker</span>
-            <span class="badge">JUnit</span>
-            <span class="badge">Bison</span>
-            <span class="badge">Lex/Flex</span>
-            <span class="badge">JavaCC</span>
-            <span class="badge">VS Code</span>
-            <span class="badge">IntelliJ</span>
-            <span class="badge">PyCharm</span>
-        </div>
-      </div>
+      <div id="windowLayer">
+          <!-- Terminal Mock App-->
+          <div class="window hidden" id="terminalWindow">
+              <div class="window-header">
+                  <div class="window-controls">
+                      <span class="close"></span>
+                      <span class="minimize"></span>
+                      <span class="maximize"></span>
+                  </div>
 
-      <div class="skill-group">
-        <h4>Databases</h4>
-        <div class="skills-list reveal">
-          <span class="badge">PostgreSQL</span>
-          <span class="badge">Oracle</span>
-          <span class="badge">SQLite</span>
-        </div>
-      </div>
+                  <span>terminal</span>
+              </div>
 
-      <div class="skill-group">
-        <h4>Platforms &amp; Libraries</h4>
-        <div class="skills-list reveal">
-            <span class="badge">Linux</span>
-            <span class="badge">Raspberry Pi</span>
-            <span class="badge">JavaFX</span>
-            <span class="badge">pandas</span>
-            <span class="badge">NumPy</span>
-            <span class="badge">Matplotlib</span>
-            <span class="badge">TensorFlow</span>
-        </div>
-      </div>
+              <!-- specific terminal commands that work to redirect to different windows -->
+              <div class="window-content terminal-content">
 
-      <div class="center">
-        <a class="btn reveal" href="assets/Hanik-Sator-Resume.pdf" download>Download Full Résumé</a>
-      </div>
-    </section>
+                  <div id="terminalOutput">
+                      <p class="terminal-line">
+                          hanik@portfolio:~$ <span class="terminal-command">help</span>
+                      </p>
 
-    <!-- Projects Section -->
-    <section id="projects" class="section container">
-      <h2 class="section-title reveal">Featured Projects</h2>
-      <div class="project-grid">
-          <div class="project-card reveal">
-              <h3>FreshTrack</h3>
-              <p>Inventory system built with <strong>Django</strong> and <strong>PostgreSQL</strong>, featuring product tracking, expiration alerts, and category-based filtering.</p>
-              <div class="project-actions">
-                  <button
-                          type="button"
-                          class="project-link"
-                          data-live-url="https://freshtrack-inventory.onrender.com">
-                      Live Demo
-                  </button>
+                      <p class="terminal-response">
+                          Available commands:
+                      </p>
 
-                  <button
-                          type="button"
-                          class="project-link"
-                          data-video="assets/freshtrack-walkthrough.mp4"
-                          data-video-title="FreshTrack Walkthrough"
-                          data-notes-title="What this walkthrough shows"
-                          data-note-1="Expiration-aware forecasting and inventory views for perishable and non-perishable items"
-                          data-note-2="Household-based inventory tracking across shared locations"
-                          data-note-3="Shared household lists with drag-and-drop organization and shopping workflow"
-                          data-note-4="User flows including registration, login, household invites, and member management">
-                      Walkthrough
-                  </button>
+                      <p class="terminal-response">
+                          help, about, skills, projects, resume, contact,
+                          clear, whoami, ls
+                      </p>
+                  </div>
+
+                  <div class="terminal-input-row">
+                      <span class="terminal-prompt">hanik@portfolio:~$</span>
+
+                      <input
+                              type="text"
+                              id="terminalInput"
+                              autocomplete="off"
+                              spellcheck="false"
+                      />
+                  </div>
+
               </div>
           </div>
-        <div class="project-card reveal">
-          <h3>Minesweeper FX</h3>
-          <p>Modern JavaFX take on Minesweeper with timer, flag counter & state-saving.</p>
-          <button type="button" class="project-link">Play</button>
-        </div>
-        <div class="project-card reveal">
-          <h3>Remote-Controlled Car</h3>
-            <p>
-                Raspberry Pi–based car with Python control logic, real-time feedback via LEDs and buzzer,
-                and responsive motor control using GPIO.
-            </p>
-            <div class="project-actions">
-                <button
-                        type="button"
-                        class="project-link"
-                        data-video="assets/rc-car-walkthrough.mp4"
-                        data-video-title="Remote-Controlled Car Demo"
-                        data-notes-title="What this demo shows"
-                        data-note-1="Raspberry Pi–based remote-controlled car with integrated motors, LEDs, and sensors"
-                        data-note-2="Python control logic handling speed, direction, and real-time movement commands"
-                        data-note-3="Immediate visual and audio feedback using LEDs and a buzzer for system state"
-                        data-note-4="Low-latency hardware interaction using GPIOZero for reliable motor control"
-                >
-                    Demo
-                </button>
-            </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section container">
-      <h2 class="section-title reveal">Get in Touch</h2>
-      <div class="contact-card reveal">
-        <!-- Left: text + rows -->
-        <div>
-          <p class="contact-lead">Have a project in mind or just want to chat? I’m happy to connect.</p>
-          <span class="pill">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Usually replies within 24h
-          </span>
+          <!-- About Mock Text File -->
+          <div class="window hidden" id="aboutWindow">
+              <div class="window-header">
+                  <div class="window-controls">
+                      <span class="close"></span>
+                      <span class="minimize"></span>
+                      <span class="maximize"></span>
+                  </div>
 
-          <div class="contact-rows" style="margin-top:1rem">
-            <div class="contact-row">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16v12H4z" stroke-width="1.6"/><path d="M4 7l8 6 8-6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span>haniksator@gmail.com</span>
-              <small>— email</small>
-            </div>
-            <div class="contact-row">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v2a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.08 4.18 2 2 0 0 1 5 2h2a2 2 0 0 1 2 1.72c.12.9.3 1.78.57 2.63a2 2 0 0 1-.45 2.11L8 9a16 16 0 0 0 7 7l.54-1.12a2 2 0 0 1 2.11-.45c.85.27 1.73.45 2.63.57A2 2 0 0 1 22 16.92z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span>773-704-8411</span>
-              <small>— phone</small>
-            </div>
+                  <span>about.txt</span>
+              </div>
+
+              <!-- content about me :) -->
+              <div class="window-content about-content">
+
+                  <div class="about-hero">
+                      <div>
+                          <h1>Hanik Sator</h1>
+                          <p class="about-subtitle">
+                              Software engineer focused on backend systems,
+                              maintainable applications, and thoughtful user experiences.
+                          </p>
+                      </div>
+
+                      <div class="status-pill">
+                          ● available for opportunities
+                      </div>
+                  </div>
+
+                  <div class="about-grid">
+
+                      <div class="about-card">
+                          <span class="about-label">location</span>
+                          <p>Chicago, Illinois</p>
+                      </div>
+
+                      <div class="about-card">
+                          <span class="about-label">education</span>
+                          <p>B.S. Computer Science — DePaul University</p>
+                      </div>
+
+                      <div class="about-card">
+                          <span class="about-label">current focus</span>
+                          <p>Backend engineering, systems design, and software architecture</p>
+                      </div>
+
+                      <div class="about-card">
+                          <span class="about-label">interests</span>
+                          <p>Linux environments, embedded systems, developer tooling, and UI design</p>
+                      </div>
+
+                  </div>
+
+                  <div class="about-terminal">
+                      <p><span>hanik@portfolio:~$</span> whoami</p>
+                      <p class="terminal-response">
+                          Engineer who enjoys building reliable systems with clean structure,
+                          intuitive interfaces, and practical functionality.
+                      </p>
+
+                      <p><span>hanik@portfolio:~$</span> current_status</p>
+                      <p class="terminal-response">
+                          Seeking software engineering opportunities while continuing
+                          to expand backend and systems knowledge.
+                      </p>
+                  </div>
+
+              </div>
           </div>
-        </div>
 
-        <!-- Right: action buttons -->
-        <div class="contact-actions">
-          <a class="btn-primary magnet" href="mailto:haniksator@gmail.com">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 2L11 13" stroke-width="1.8"/><path d="M22 2l-7 20-4-9-9-4 20-7z" stroke-width="1.8" stroke-linejoin="round"/></svg>
-            Email Me
-          </a>
-          <a class="btn-ghost magnet" href="tel:+17737048411">
-            <!-- phone -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v2a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.08 4.18 2 2 0 0 1 5 2h2a2 2 0 0 1 2 1.72c.12.9.3 1.78.57 2.63a2 2 0 0 1-.45 2.11L8 9a16 16 0 0 0 7 7l.54-1.12a2 2 0 0 1 2.11-.45c.85.27 1.73.45 2.63.57A2 2 0 0 1 22 16.92z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Call
-          </a>
-          <button class="btn-ghost magnet" type="button" data-copy="haniksator@gmail.com">
-            <!-- copy -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke-width="1.6"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke-width="1.6"/></svg>
-            Copy Email
-          </button>
-        </div>
+          <!-- Skills Config Window -->
+          <div class="window hidden" id="skillsWindow">
+
+              <div class="window-header">
+                  <div class="window-controls">
+                      <span class="close"></span>
+                      <span class="minimize"></span>
+                      <span class="maximize"></span>
+                  </div>
+
+                  <span>skills.config</span>
+              </div>
+
+              <div class="window-content config-content">
+
+          <pre>
+languages/
+├── java
+├── python
+├── c
+├── cpp
+├── javascript
+└── sql
+
+
+frameworks/
+├── django
+├── flask
+└── spring_boot
+
+
+tools/
+├── git
+├── docker
+├── linux
+├── postgresql
+├── junit
+└── vscode
+
+
+coursework/
+├── operating_systems
+├── distributed_systems
+├── compiler_design
+├── software_testing
+└── data_structures
+
+
+currently_interested_in/
+├── backend_systems
+├── software_architecture
+├── distributed_systems
+└── developer_tooling
+
+
+environment/
+├── macos
+├── linux
+└── intellij_idea
+
+
+status/
+└── open_to_opportunities
+          </pre>
+
+              </div>
+          </div>
+
+          <!-- projects window -->
+          <div class="window hidden" id="projectsWindow">
+              <div class="window-header">
+                  <div class="window-controls">
+                      <span class="close"></span>
+                      <span class="minimize"></span>
+                      <span class="maximize"></span>
+                  </div>
+
+                  <span>projects/</span>
+              </div>
+
+              <div class="window-content projects-content">
+
+                  <div class="projects-sidebar">
+                      <p class="sidebar-title">repositories</p>
+
+                      <button class="project-file active" data-project="freshtrack">freshtrack/</button>
+                      <button class="project-file" data-project="minesweeper">minesweeper_fx/</button>
+                      <button class="project-file" data-project="rc-car">rc_car/</button>
+                  </div>
+
+                  <div class="project-details">
+
+                      <div class="project-panel active" id="freshtrack">
+                          <p class="project-path">~/projects/freshtrack</p>
+                          <h2>FreshTrack</h2>
+                          <p>
+                              Inventory management app built with Django and PostgreSQL for tracking products,
+                              expiration dates, shared households, and shopping workflows.
+                          </p>
+
+                          <div class="project-tags">
+                              <span>Django</span>
+                              <span>PostgreSQL</span>
+                              <span>Python</span>
+                              <span>Backend</span>
+                          </div>
+
+                          <div class="project-actions">
+                              <button
+                                      type="button"
+                                      class="project-link"
+                                      data-live-url="https://freshtrack-inventory.onrender.com">
+                                  Live Demo
+                              </button>
+
+                              <button
+                                      type="button"
+                                      class="project-link"
+                                      data-video="assets/freshtrack-walkthrough.mp4"
+                                      data-video-title="FreshTrack Walkthrough"
+                                      data-notes-title="What this walkthrough shows"
+                                      data-note-1="Expiration-aware inventory views for perishable and non-perishable items"
+                                      data-note-2="Household-based inventory tracking across shared locations"
+                                      data-note-3="Shared household lists with drag-and-drop organization"
+                                      data-note-4="Registration, login, household invites, and member management">
+                                  Walkthrough
+                              </button>
+                          </div>
+                      </div>
+
+                      <div class="project-panel" id="minesweeper">
+                          <p class="project-path">~/projects/minesweeper_fx</p>
+                          <h2>Minesweeper FX</h2>
+                          <p>
+                              JavaFX version of Minesweeper with a timer, flag counter, game-state handling,
+                              and a clean desktop-style interface.
+                          </p>
+
+                          <div class="project-tags">
+                              <span>Java</span>
+                              <span>JavaFX</span>
+                              <span>Desktop App</span>
+                              <span>State Management</span>
+                          </div>
+
+                          <div class="project-actions">
+                              <button type="button" class="project-link">
+                                  Coming Soon
+                              </button>
+                          </div>
+                      </div>
+
+                      <div class="project-panel" id="rc-car">
+                          <p class="project-path">~/projects/rc_car</p>
+                          <h2>Remote-Controlled Car</h2>
+                          <p>
+                              Raspberry Pi based car using Python control logic, GPIOZero, motors, LEDs,
+                              buzzer feedback, and real-time movement commands.
+                          </p>
+
+                          <div class="project-tags">
+                              <span>Python</span>
+                              <span>Raspberry Pi</span>
+                              <span>GPIOZero</span>
+                              <span>Hardware</span>
+                          </div>
+
+                          <div class="project-actions">
+                              <button
+                                      type="button"
+                                      class="project-link"
+                                      data-video="assets/rc-car-walkthrough.mp4"
+                                      data-video-title="Remote-Controlled Car Demo"
+                                      data-notes-title="What this demo shows"
+                                      data-note-1="Raspberry Pi based remote-controlled car with motors, LEDs, and sensors"
+                                      data-note-2="Python control logic handling speed, direction, and movement commands"
+                                      data-note-3="Visual and audio feedback using LEDs and a buzzer"
+                                      data-note-4="Low-latency hardware interaction using GPIOZero">
+                                  Walkthrough
+                              </button>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+          </div>
+
+          <!-- resume pdf window -->
+          <div class="window hidden" id="resumeWindow">
+              <div class="window-header">
+                  <div class="window-controls">
+                      <span class="close"></span>
+                      <span class="minimize"></span>
+                      <span class="maximize"></span>
+                  </div>
+
+                  <span>resume.pdf</span>
+              </div>
+
+              <div class="window-content resume-content">
+                  <div class="resume-toolbar">
+                      <span>Hanik-Sator-Resume.pdf</span>
+
+                      <a class="resume-download" href="assets/Hanik-Sator-Resume.pdf" download>Download</a>
+                  </div>
+
+                  <iframe
+                          class="resume-frame"
+                          src="assets/Hanik-Sator-Resume.pdf#view=FitH"
+                          title="Hanik Sator Resume PDF"
+                  ></iframe>
+              </div>
+          </div>
+
+          <!-- contact window -->
+          <div class="window hidden" id="contactWindow">
+              <div class="window-header">
+                  <div class="window-controls">
+                      <span class="close"></span>
+                      <span class="minimize"></span>
+                      <span class="maximize"></span>
+                  </div>
+
+                  <span>contact.service</span>
+              </div>
+
+              <div class="window-content contact-content">
+
+                  <div class="contact-hero">
+                      <div>
+                          <h2>contact.service</h2>
+                          <p>
+                              Open to software engineering opportunities,
+                              collaborations, and technical conversations.
+                          </p>
+                      </div>
+
+                      <div class="contact-status">
+                          ● online
+                      </div>
+                  </div>
+
+                  <div class="contact-grid">
+                      <div class="contact-card">
+                          <span class="contact-label">email</span>
+
+                          <a href="mailto:haniksator@gmail.com" class="contact-value">
+                              haniksator@gmail.com
+                          </a>
+                      </div>
+
+                      <div class="contact-card">
+                          <span class="contact-label">github</span>
+
+                          <a href="https://github.com/haniksator" target="_blank" class="contact-value">
+                              github.com/haniksator
+                          </a>
+                      </div>
+
+                      <div class="contact-card">
+                          <span class="contact-label">linkedin</span>
+
+                          <a href="https://linkedin.com/in/haniksator" target="_blank" class="contact-value">
+                              linkedin.com/in/haniksator
+                          </a>
+                      </div>
+
+                      <div class="contact-card">
+                          <span class="contact-label">location</span>
+
+                          <p class="contact-value">
+                              Chicago, Illinois
+                          </p>
+                      </div>
+                  </div>
+
+                  <div class="contact-actions">
+                      <button class="contact-button" id="copyEmailBtn">
+                          Copy Email
+                      </button>
+
+                      <a class="contact-button secondary" href="mailto:haniksator@gmail.com">
+                          Send Message
+                      </a>
+                  </div>
+              </div>
+          </div>
+
+          <!-- If I want more windows, use the line after this line. -->
+
       </div>
-    </section>
-    <div id="footerTrigger" style="height:220px"></div>
-  </main>
+  </div>
 
-  <!-- Footer -->
-  <footer id="footer">
-    <div class="footer-inner">
-      <!-- Profile -->
-      <div class="profile-card">
-        <div class="avatar">
-          <picture>
-            <img
-              src="assets/Hanik-Sator-Profile.jpg"
-              alt="Hanik Sator"
-              width="72" height="72"
-              loading="lazy"
-              decoding="async"
-              class="avatar-img"
-              onerror="this.src='assets/Hanik-Sator-Profile.jpg'"
-            />
-          </picture>
-        </div>
-        <span>Hanik Sator</span>
-        <span class="version" id="buildStamp"></span>
-      </div>
-
-      <!-- Navigation -->
-      <div class="footer-col">
-        <h4>Navigation</h4>
-        <a href="#about">About</a>
-        <a href="#resume">Resume</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </div>
-
-      <!-- Socials -->
-      <div class="footer-col">
-        <h4>Socials</h4>
-        <a href="https://github.com/haniksator" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://linkedin.com/in/haniksator" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </div>
-
-    <!-- Sub-footer -->
-    <div class="sub-footer">
-      © <span id="year"></span> Hanik Sator — All rights reserved.
-    </div>
-  </footer>
 
   <!-- Scripts -->
   <script>
     const bootOverlay = document.getElementById('bootOverlay');
     const bootText = document.getElementById('bootText');
-    const mainContent = document.getElementById('mainContent');
+
 
     const bootLines = [
       "[ OK ] Bootloader initialized...",
@@ -985,8 +1696,8 @@
       "haniksator@portfolio:~$ boot --launch"
     ];
 
-    const lineDelay = 50;   // delay between characters
-    const linePause = 150;   // pause between lines (ms)
+    const lineDelay = 20;   // delay between characters
+    const linePause = 75;   // pause between lines (ms)
 
     let lineIndex = 0;
     let charIndex = 0;
@@ -997,11 +1708,7 @@
         bootOverlay.scrollTop = bootOverlay.scrollHeight;
 
         setTimeout(() => {
-          bootOverlay.style.opacity = "0";
-          setTimeout(() => {
-            bootOverlay.classList.add("hidden");
-            mainContent.style.opacity = "1";
-          }, 350);
+          bootOverlay.classList.add("hidden");
         }, 700);
         return;
       }
@@ -1027,67 +1734,6 @@
 
     // Start boot typing on page load
     window.onload = () => setTimeout(typeNextChar, 600);
-
-    // Simple toast
-    function showToast(msg) {
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.textContent = msg;
-      document.body.appendChild(toast);
-      requestAnimationFrame(() => toast.classList.add('visible'));
-      setTimeout(() => toast.classList.remove('visible'), 2600);
-      setTimeout(() => toast.remove(), 3100);
-    }
-
-    // Confetti at cursor
-    function confettiBurstAt(x, y){
-      const colors = ['#2dd4bf','#0ea5a4','#86e7de','#ffffff'];
-      const z = 2000; // above toasts/modals
-      for (let i = 0; i < 18; i++){
-        const p = document.createElement('span');
-        p.style.position = 'fixed';
-        p.style.left = x + 'px';
-        p.style.top = y + 'px';
-        p.style.width = p.style.height = (6 + Math.random()*4) + 'px';
-        p.style.background = colors[i % colors.length];
-        p.style.borderRadius = '2px';
-        p.style.pointerEvents = 'none';
-        p.style.zIndex = z;
-        document.body.appendChild(p);
-
-        const dx = (Math.random()*2 - 1) * 120;
-        const dy = (Math.random()*-1) * 160 - 40;
-        p.animate(
-          [
-            { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
-            { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random()*360}deg)`, opacity: 0 }
-          ],
-          { duration: 650 + Math.random()*300, easing: 'cubic-bezier(.2,.8,.2,1)' }
-        ).onfinish = () => p.remove();
-      }
-    }
-
-    // Scroll-reveal
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.15 });
-
-    document.querySelectorAll('.reveal').forEach((el, idx) => {
-      el.style.transitionDelay = `${idx * 60}ms`;
-      observer.observe(el);
-    });
-
-    // Footer reveal
-    const footer = document.getElementById('footer');
-    new IntersectionObserver(e => e.forEach(x => footer.classList.toggle('visible', x.isIntersecting)), { threshold: 1 })
-      .observe(document.getElementById('footerTrigger'));
-
-    // Build stamp
-    const d = new Date();
-    document.getElementById('buildStamp').textContent =
-      `build ${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
     // Temporary coming soon modal for project links and live demo health check
     document.addEventListener('DOMContentLoaded', () => {
@@ -1163,61 +1809,12 @@
     document.addEventListener('keydown', (e)=>{
       if(e.key === 'Escape' && !bootOverlay.classList.contains('hidden')){
         bootOverlay.classList.add('hidden');
-        mainContent.style.opacity = '1';
       }
     });
 
-    // Contact card interactions
-    document.querySelectorAll('[data-copy]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const val = btn.getAttribute('data-copy');
-        navigator.clipboard?.writeText(val).then(() => {
-          showToast?.('Email copied!');
-          // use actual cursor position (accounts for scrolling automatically)
-          confettiBurstAt(e.clientX, e.clientY);
-        }).catch(() => {
-          // fallback toast
-          const n = document.createElement('div');
-          n.textContent = 'Email copied!';
-          n.style.cssText = 'position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:.6rem 1rem;border-radius:10px;z-index:2000';
-          document.body.appendChild(n);
-          setTimeout(()=>n.remove(),1400);
-          confettiBurstAt(e.clientX, e.clientY);
-        });
-      });
-    });
-
-    // Scroll progress
-    const sp = document.getElementById('scrollProgress');
-    function updateSP(){
-      const h = document.documentElement;
-      const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-      sp.style.width = `${scrolled}%`;
-    }
-    document.addEventListener('scroll', updateSP, {passive:true});
-    updateSP();
-
-    // Magnetic effect
-    function makeMagnet(el, strength = 12){
-      el.addEventListener('mousemove', (e)=>{
-        const rect = el.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width - .5) * strength;
-        const y = ((e.clientY - rect.top) / rect.height - .5) * strength;
-        el.style.transform = `translate(${x}px, ${y}px)`;
-      });
-      el.addEventListener('mouseleave', ()=> el.style.transform = '');
-    }
-    document.querySelectorAll('.magnet').forEach(el => makeMagnet(el));
-
-    document.getElementById("year").textContent = new Date().getFullYear();
-
     // Skip intro overlay
     document.getElementById("skipBoot").addEventListener("click", () => {
-        bootOverlay.style.opacity = "0";
-        setTimeout(() => {
-            bootOverlay.classList.add("hidden");
-            mainContent.style.opacity = "1";
-        }, 200);
+       bootOverlay.classList.add("hidden");
     });
       // Walkthrough video modal
     document.addEventListener('DOMContentLoaded', () => {
@@ -1300,6 +1897,315 @@
         openVideoModal(trigger, videoSrc, trigger.dataset.videoTitle);
       });
     });
+    const windows = document.querySelectorAll('.window');
+    const launchers = document.querySelectorAll('[data-window]');
+
+    let highestZ = 10;
+
+    function focusWindow(win) {
+      windows.forEach(w => w.classList.remove('active-window'));
+
+      highestZ++;
+      win.style.zIndex = highestZ;
+      win.classList.add('active-window');
+    }
+
+    function openDesktopWindow(windowId) {
+      const target = document.getElementById(windowId);
+
+      if (!target) return;
+
+      target.classList.remove('hidden');
+
+      target.classList.remove('window-opening');
+      void target.offsetWidth;
+      target.classList.add('window-opening');
+
+      focusWindow(target);
+      updateDockIndicators();
+    }
+
+    function updateDockIndicators() {
+      document.querySelectorAll('.dock-icon').forEach(icon => {
+        const target = document.getElementById(icon.dataset.window);
+
+        if (!target) return;
+
+        icon.classList.toggle(
+          'active-dock',
+          !target.classList.contains('hidden')
+        );
+      });
+    }
+
+    launchers.forEach(btn => {
+      btn.addEventListener('click', () => {
+        openDesktopWindow(btn.dataset.window);
+      });
+    });
+
+    windows.forEach(win => {
+
+        const header = win.querySelector('.window-header');
+
+        let isDragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        header.addEventListener('mousedown', e => {
+        isDragging = true;
+
+        focusWindow(win);
+
+        offsetX = e.clientX - win.offsetLeft;
+        offsetY = e.clientY - win.offsetTop;
+    });
+
+    document.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+
+        win.style.left = `${e.clientX - offsetX}px`;
+        win.style.top = `${e.clientY - offsetY}px`;
+      });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+    const closeBtn = win.querySelector('.close');
+    const minimizeBtn = win.querySelector('.minimize');
+    const maximizeBtn = win.querySelector('.maximize');
+
+    closeBtn.addEventListener('click', () => {
+        win.classList.add('hidden');
+        updateDockIndicators();
+    });
+
+    minimizeBtn.addEventListener('click', () => {
+        win.classList.add('hidden');
+        updateDockIndicators();
+    });
+
+    maximizeBtn.addEventListener('click', () => {
+        win.classList.toggle('maximized');
+
+        focusWindow(win);
+    });
+    });
+
+    /* Clock */
+
+    function updateClock() {
+    const now = new Date();
+
+    document.getElementById('clock').textContent =
+    now.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    /* Terminal beginning */
+    const terminalInput = document.getElementById('terminalInput');
+    const terminalOutput = document.getElementById('terminalOutput');
+
+    const terminalCommands = {
+
+      help: `
+    Available commands:
+
+    help
+    about
+    skills
+    projects
+    resume
+    contact
+    whoami
+    ls
+    clear
+    `,
+
+      whoami: `
+    Hanik Sator
+    Software engineer focused on backend systems,
+    maintainable applications, and thoughtful UI.
+    `,
+
+      ls: `
+    about.txt
+    skills.config
+    projects/
+    resume.pdf
+    contact.service
+    `,
+
+      about: `
+    Opening about.txt...
+    `,
+
+      skills: `
+    Opening skills.config...
+    `,
+
+      projects: `
+    Opening projects...
+    `,
+
+      resume: `
+    Opening resume.pdf...
+    `,
+
+      contact: `
+    email: haniksator@gmail.com
+    location: chicago, il
+    status: available
+    `
+    };
+
+    function printToTerminal(text, className = 'terminal-response') {
+
+      const lines = text.trim().split('\n');
+
+      lines.forEach(line => {
+        const p = document.createElement('p');
+
+        p.className = className;
+
+        p.textContent = line;
+
+        terminalOutput.appendChild(p);
+      });
+
+      terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    }
+
+    function openWindow(windowId) {
+
+      const target = document.getElementById(windowId);
+
+      if (!target) return;
+
+      target.classList.remove('hidden');
+
+      highestZ++;
+      target.style.zIndex = highestZ;
+    }
+
+    terminalInput.addEventListener('keydown', (e) => {
+
+      if (e.key !== 'Enter') return;
+
+      const command = terminalInput.value.trim().toLowerCase();
+
+      if (!command) return;
+
+      const commandLine = document.createElement('p');
+
+      commandLine.className = 'terminal-line';
+
+      commandLine.innerHTML =
+        `hanik@portfolio:~$ <span class="terminal-command">${command}</span>`;
+
+      terminalOutput.appendChild(commandLine);
+
+      if (command === 'clear') {
+
+        terminalOutput.innerHTML = '';
+
+        terminalInput.value = '';
+
+        return;
+      }
+
+      switch(command) {
+
+        case 'about':
+          printToTerminal(terminalCommands.about);
+          openWindow('aboutWindow');
+          break;
+
+        case 'skills':
+          printToTerminal(terminalCommands.skills);
+          openWindow('skillsWindow');
+          break;
+
+        case 'projects':
+          printToTerminal(terminalCommands.projects);
+          openWindow('projectsWindow');
+          break;
+
+        case 'resume':
+          printToTerminal(terminalCommands.resume);
+          openWindow('resumeWindow');
+          break;
+
+        default:
+
+          if (terminalCommands[command]) {
+
+            printToTerminal(terminalCommands[command]);
+
+          } else {
+
+            printToTerminal(
+              `command not found: ${command}`
+            );
+          }
+      }
+
+      terminalInput.value = '';
+
+      terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    });
+    /* Terminal ending */
+
+      /* Project browser beginning */
+    document.querySelectorAll('.project-file').forEach(button => {
+      button.addEventListener('click', () => {
+        const projectId = button.dataset.project;
+
+        document.querySelectorAll('.project-file').forEach(btn => {
+          btn.classList.remove('active');
+        });
+
+        document.querySelectorAll('.project-panel').forEach(panel => {
+          panel.classList.remove('active');
+        });
+
+        button.classList.add('active');
+        document.getElementById(projectId).classList.add('active');
+      });
+    });
+      /* Project browser ending */
+
+      /* Copy email button */
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+
+    if (copyEmailBtn) {
+
+      copyEmailBtn.addEventListener('click', async () => {
+
+        try {
+
+          await navigator.clipboard.writeText(
+            'haniksator@gmail.com'
+          );
+
+          copyEmailBtn.textContent = 'Email Copied';
+
+          setTimeout(() => {
+            copyEmailBtn.textContent = 'Copy Email';
+          }, 1800);
+
+        } catch (err) {
+
+          copyEmailBtn.textContent = 'Copy Failed';
+        }
+      });
+    }
   </script>
 
     <!-- Temporary Coming Soon Modal -->
@@ -1327,8 +2233,8 @@
               <h3 id="videoTitle">Walkthrough</h3>
           </div>
 
-          <div style="margin-top:.8rem">
-              <video id="videoPlayer" controls playsinline style="width:100%; border-radius: 12px; border:1px solid var(--border); background: #000;">
+            <div class="video-wrap">
+              <video id="videoPlayer" controls playsinline class="video-player">
                   Sorry, your browser doesn’t support embedded videos.
               </video>
               <div class="video-notes" id="videoNotes"></div>
@@ -1339,5 +2245,9 @@
           </div>
       </div>
     </div>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+      lucide.createIcons();
+  </script>
 </body>
 </html>
