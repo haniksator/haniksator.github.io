@@ -573,6 +573,14 @@
         white-space: nowrap;
       }
 
+      .status-dot {
+        color: #7FA36B;
+
+        margin-right: .35rem;
+
+        text-shadow: 0 0 10px rgba(127,163,107,.35);
+      }
+
       .about-grid {
         display: grid;
 
@@ -631,6 +639,27 @@
       .terminal-response {
         opacity: .88;
         margin-bottom: 1rem;
+      }
+
+      .about-side {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: .9rem;
+      }
+
+      .profile-image {
+        width: 92px;
+        height: 92px;
+        object-fit: cover;
+        border-radius: 22px;
+        border: 1px solid rgba(255,255,255,.22);
+
+        box-shadow:
+            0 12px 30px rgba(0,0,0,.18),
+            0 0 0 1px rgba(255,255,255,.08);
+
+        background: rgba(255,255,255,.08);
       }
       /* about css ending */
 
@@ -1245,7 +1274,7 @@
   <div id="desktop">
       <div class="top-bar">
           <div class="top-left">
-              hanikOS • portfolio v2.2
+              hanikOS • portfolio v2.2.1
           </div>
 
           <div class="top-center">
@@ -1253,7 +1282,10 @@
           </div>
 
           <div class="top-right">
-              <span>◉ online</span>
+              <span>
+                <span class="status-dot">●</span>
+                online
+              </span>
               <span id="clock"></span>
           </div>
       </div>
@@ -1384,13 +1416,23 @@
                       <div>
                           <h1>Hanik Sator</h1>
                           <p class="about-subtitle">
-                              Software engineer focused on backend systems,
-                              maintainable applications, and thoughtful user experiences.
+                              Computer science graduate and software engineer based in Chicago.
+                              I like building practical systems with clean structure, reliable backend logic,
+                              and interfaces that feel thoughtful instead of overcomplicated.
                           </p>
                       </div>
 
-                      <div class="status-pill">
-                          ● available for opportunities
+                      <div class="about-side">
+                          <div class="status-pill">
+                              <span class="status-dot">●</span>
+                              available for opportunities
+                          </div>
+
+                          <img
+                                  src="assets/Hanik-Sator-Profile.jpg"
+                                  alt="Hanik Sator"
+                                  class="profile-image"
+                          />
                       </div>
                   </div>
 
@@ -1421,14 +1463,16 @@
                   <div class="about-terminal">
                       <p><span>hanik@portfolio:~$</span> whoami</p>
                       <p class="terminal-response">
-                          Engineer who enjoys building reliable systems with clean structure,
-                          intuitive interfaces, and practical functionality.
+                          Software engineer who enjoys building practical systems,
+                          experimenting with interfaces, and creating software that
+                          feels clean, reliable, and intentional.
                       </p>
 
                       <p><span>hanik@portfolio:~$</span> current_status</p>
                       <p class="terminal-response">
-                          Seeking software engineering opportunities while continuing
-                          to expand backend and systems knowledge.
+                          Currently looking for software engineering opportunities while
+                          continuing to explore backend development, systems programming,
+                          and developer-focused tools.
                       </p>
                   </div>
 
@@ -1728,7 +1772,8 @@ status/
                       </div>
 
                       <div class="contact-status">
-                          ● online
+                          <span class="status-dot">●</span>
+                          online
                       </div>
                   </div>
 
@@ -2172,16 +2217,16 @@ status/
     `,
 
       whoami: `
-    Hanik Sator
-    Software engineer focused on backend systems,
-    maintainable applications, and thoughtful UI.
-    `,
+        Hanik Sator
+
+        Computer science student and software engineer who enjoys building practical systems, backend applications, and interfaces that feel clean and intentional.
+      `,
 
       ls: `
     about.txt
     experience.log
     skills.config
-    projects/
+    projects
     resume.pdf
     contact.service
     `,
