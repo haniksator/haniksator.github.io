@@ -971,6 +971,99 @@
         transform: translateY(-1px);
       }
 
+      .project-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .project-summary {
+        max-width: 600px;
+        line-height: 1.7;
+        opacity: .84;
+      }
+
+      .project-status {
+        padding: .4rem .7rem;
+
+        border-radius: 999px;
+
+        background: rgba(127,163,107,.16);
+        border: 1px solid rgba(127,163,107,.24);
+
+        color: #5F7F4E;
+        font-size: .78rem;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .project-status.muted {
+        background: rgba(70,60,50,.08);
+        border-color: var(--border);
+        color: rgba(46,42,38,.62);
+      }
+
+      .project-info-grid {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: .8rem;
+
+        margin: 1rem 0 1.2rem;
+      }
+
+      .project-info-card {
+        padding: .9rem;
+
+        border-radius: 14px;
+
+        background: rgba(230,226,218,.72);
+
+        border: 1px solid var(--border);
+      }
+
+      .project-info-card span {
+        display: block;
+
+        margin-bottom: .4rem;
+
+        font-size: .72rem;
+        font-weight: 700;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+
+        opacity: .55;
+      }
+
+      .project-info-card p {
+        line-height: 1.5;
+        font-size: .92rem;
+      }
+
+      .project-section {
+        margin-top: 1rem;
+      }
+
+      .project-section h3 {
+        margin-bottom: .6rem;
+
+        font-size: 1rem;
+
+        color: var(--heading);
+      }
+
+      .project-section ul {
+        padding-left: 1.1rem;
+
+        display: grid;
+        gap: .45rem;
+      }
+
+      .project-section li {
+        line-height: 1.6;
+      }
       /* projects css ending */
 
       /* resume css beginning */
@@ -1261,6 +1354,106 @@
         stroke-width: 1.7;
         margin: 0 auto;
       }
+
+      /* only for the easter egg game */
+      .desktop-icons-right {
+        position: absolute;
+        top: 80px;
+        right: 78px;
+        padding: 0;
+        align-items: center;
+      }
+      /* tic tac toe css beginning */
+
+      .game-window {
+        width: 420px;
+        height: 470px;
+      }
+
+      .game-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .game-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .game-head h2 {
+        margin-bottom: .35rem;
+      }
+
+      .game-head p {
+        line-height: 1.5;
+        opacity: .75;
+      }
+
+      .game-reset {
+        padding: .5rem .75rem;
+
+        border-radius: 999px;
+
+        border: 1px solid var(--border);
+
+        background: rgba(255,255,255,.28);
+        color: var(--text);
+
+        font: inherit;
+        font-weight: 600;
+
+        cursor: pointer;
+      }
+
+      .game-reset:hover {
+        background: rgba(135,144,127,.16);
+      }
+
+      .game-status {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        opacity: .75;
+      }
+
+      .tic-board {
+        display: grid;
+        grid-template-columns: repeat(3, 82px);
+        gap: .65rem;
+
+        margin: .4rem auto 0;
+      }
+
+      .tic-board button {
+        width: 82px;
+        height: 82px;
+
+        border-radius: 18px;
+
+        border: 1px solid var(--border-strong);
+
+        background: rgba(230,226,218,.72);
+
+        color: var(--heading);
+
+        font: 800 2rem ui-monospace, SFMono-Regular, Menlo, monospace;
+
+        cursor: pointer;
+
+        transition: .16s ease;
+      }
+
+      .tic-board button:hover {
+        background: rgba(135,144,127,.18);
+        transform: translateY(-1px);
+      }
+
+      .tic-board button:disabled {
+        cursor: default;
+        opacity: .85;
+      }
+      /* easter egg ending */
   </style>
 </head>
 <body>
@@ -1349,6 +1542,13 @@
           <button class="desktop-icon" data-window="contactWindow">
               <i data-lucide="mail"></i>
               <p>contact.service</p>
+          </button>
+      </div>
+
+      <div class="desktop-icons desktop-icons-right">
+          <button class="desktop-icon" data-window="gameWindow">
+              <i data-lucide="gamepad-2"></i>
+              <p>tictactoe.app</p>
           </button>
       </div>
 
@@ -1603,7 +1803,7 @@ status/
           </div>
 
           <!-- projects window -->
-          <div class="window hidden" id="projectsWindow">
+          <div class="window hidden maximized" id="projectsWindow">
               <div class="window-header">
                   <div class="window-controls">
                       <span class="close"></span>
@@ -1628,17 +1828,57 @@ status/
 
                       <div class="project-panel active" id="freshtrack">
                           <p class="project-path">~/projects/freshtrack</p>
-                          <h2>FreshTrack</h2>
-                          <p>
-                              Inventory management app built with Django and PostgreSQL for tracking products,
-                              expiration dates, shared households, and shopping workflows.
-                          </p>
+
+                          <div class="project-head">
+                              <div>
+                                  <h2>FreshTrack</h2>
+                                  <p class="project-summary">
+                                      Multi-user inventory platform for tracking household items, expiration dates,
+                                      shared lists, and low-stock forecasting.
+                                  </p>
+                              </div>
+
+                              <span class="project-status">active</span>
+                          </div>
 
                           <div class="project-tags">
                               <span>Django</span>
                               <span>PostgreSQL</span>
                               <span>Python</span>
-                              <span>Backend</span>
+                              <span>Docker</span>
+                          </div>
+
+                          <div class="project-info-grid">
+                              <div class="project-info-card">
+                                  <span>type</span>
+                                  <p>Full-stack web application</p>
+                              </div>
+
+                              <div class="project-info-card">
+                                  <span>focus</span>
+                                  <p>Backend logic, data modeling, authentication</p>
+                              </div>
+
+                              <div class="project-info-card">
+                                  <span>features</span>
+                                  <p>Forecasting, shared households, shopping lists</p>
+                              </div>
+
+                              <div class="project-info-card">
+                                  <span>testing</span>
+                                  <p>Unit and integration tests for core workflows</p>
+                              </div>
+                          </div>
+
+                          <div class="project-section">
+                              <h3>Highlights</h3>
+
+                              <ul>
+                                  <li>Built inventory tracking for perishable and non-perishable household items.</li>
+                                  <li>Implemented authentication, household sharing, and role-based item visibility.</li>
+                                  <li>Created depletion forecasting logic and automated low-stock notifications.</li>
+                                  <li>Validated inventory behavior through unit and integration testing.</li>
+                              </ul>
                           </div>
 
                           <div class="project-actions">
@@ -1666,17 +1906,56 @@ status/
 
                       <div class="project-panel" id="minesweeper">
                           <p class="project-path">~/projects/minesweeper_fx</p>
-                          <h2>Minesweeper FX</h2>
-                          <p>
-                              JavaFX version of Minesweeper with a timer, flag counter, game-state handling,
-                              and a clean desktop-style interface.
-                          </p>
+
+                          <div class="project-head">
+                              <div>
+                                  <h2>Minesweeper FX</h2>
+                                  <p class="project-summary">
+                                      Desktop-style JavaFX Minesweeper implementation with game-state handling,
+                                      timer logic, flag tracking, and a clean interface.
+                                  </p>
+                              </div>
+
+                              <span class="project-status muted">archived</span>
+                          </div>
 
                           <div class="project-tags">
                               <span>Java</span>
                               <span>JavaFX</span>
                               <span>Desktop App</span>
                               <span>State Management</span>
+                          </div>
+
+                          <div class="project-info-grid">
+                              <div class="project-info-card">
+                                  <span>type</span>
+                                  <p>Desktop game application</p>
+                              </div>
+
+                              <div class="project-info-card">
+                                  <span>focus</span>
+                                  <p>UI behavior, game logic, state transitions</p>
+                              </div>
+
+                              <div class="project-info-card">
+                                  <span>features</span>
+                                  <p>Timer, flag counter, win/loss detection</p>
+                              </div>
+
+                              <div class="project-info-card">
+                                  <span>interface</span>
+                                  <p>JavaFX scene layout and event handling</p>
+                              </div>
+                          </div>
+
+                          <div class="project-section">
+                              <h3>Highlights</h3>
+
+                              <ul>
+                                  <li>Built the core board logic for revealing cells, placing flags, and detecting game outcomes.</li>
+                                  <li>Handled UI events through JavaFX components and responsive scene updates.</li>
+                                  <li>Added timer and flag count feedback for a complete desktop game feel.</li>
+                              </ul>
                           </div>
 
                           <div class="project-actions">
@@ -1688,17 +1967,56 @@ status/
 
                       <div class="project-panel" id="rc-car">
                           <p class="project-path">~/projects/rc_car</p>
-                          <h2>Remote-Controlled Car</h2>
-                          <p>
-                              Raspberry Pi based car using Python control logic, GPIOZero, motors, LEDs,
-                              buzzer feedback, and real-time movement commands.
-                          </p>
+
+                          <div class="project-head">
+                              <div>
+                                  <h2>Remote-Controlled Car</h2>
+                                  <p class="project-summary">
+                                      Raspberry Pi based vehicle using Python control logic, GPIOZero,
+                                      motors, LEDs, sensors, and real-time movement commands.
+                                  </p>
+                              </div>
+
+                              <span class="project-status">demo</span>
+                          </div>
 
                           <div class="project-tags">
                               <span>Python</span>
                               <span>Raspberry Pi</span>
                               <span>GPIOZero</span>
                               <span>Hardware</span>
+                          </div>
+
+                          <div class="project-info-grid">
+                              <div class="project-info-card">
+                                  <span>type</span>
+                                  <p>Embedded hardware project</p>
+                              </div>
+
+                              <div class="project-info-card">
+                                  <span>focus</span>
+                                  <p>Motor control, GPIO, hardware feedback</p>
+                              </div>
+
+                              <div class="project-info-card">
+                                  <span>features</span>
+                                  <p>Directional control, LEDs, buzzer response</p>
+                              </div>
+
+                              <div class="project-info-card">
+                                  <span>testing</span>
+                                  <p>Iterative hardware/software debugging</p>
+                              </div>
+                          </div>
+
+                          <div class="project-section">
+                              <h3>Highlights</h3>
+
+                              <ul>
+                                  <li>Integrated motors, sensors, LEDs, and buzzer feedback through Raspberry Pi GPIO.</li>
+                                  <li>Developed Python control logic for speed, direction, and movement commands.</li>
+                                  <li>Tested hardware/software interactions to improve responsiveness and stability.</li>
+                              </ul>
                           </div>
 
                           <div class="project-actions">
@@ -1825,6 +2143,47 @@ status/
 
           <!-- If I want more windows, use the line after this line. -->
 
+          <!-- Tic Tac Toe Easter Egg Window -->
+          <div class="window hidden game-window" id="gameWindow">
+              <div class="window-header">
+                  <div class="window-controls">
+                      <span class="close"></span>
+                      <span class="minimize"></span>
+                      <span class="maximize"></span>
+                  </div>
+
+                  <span>tictactoe.app</span>
+              </div>
+
+              <div class="window-content game-content">
+                  <div class="game-head">
+                      <div>
+                          <h2>Tic Tac Toe</h2>
+                          <p>Small desktop distraction. X goes first.</p>
+                      </div>
+
+                      <button class="game-reset" id="resetGameBtn">
+                          Reset
+                      </button>
+                  </div>
+
+                  <p class="game-status" id="gameStatus">
+                      X's turn
+                  </p>
+
+                  <div class="tic-board">
+                      <button data-cell></button>
+                      <button data-cell></button>
+                      <button data-cell></button>
+                      <button data-cell></button>
+                      <button data-cell></button>
+                      <button data-cell></button>
+                      <button data-cell></button>
+                      <button data-cell></button>
+                      <button data-cell></button>
+                  </div>
+              </div>
+          </div>
       </div>
   </div>
 
@@ -2404,6 +2763,90 @@ status/
         }
       });
     }
+      /* Tic Tac Toe app */
+
+const gameCells = document.querySelectorAll('[data-cell]');
+const gameStatus = document.getElementById('gameStatus');
+const resetGameBtn = document.getElementById('resetGameBtn');
+
+let currentPlayer = 'X';
+let gameActive = true;
+
+const winningCombos = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6]
+];
+
+function checkWinner() {
+  const values = [...gameCells].map(cell => cell.textContent);
+
+  for (const combo of winningCombos) {
+    const [a, b, c] = combo;
+
+    if (
+      values[a] &&
+      values[a] === values[b] &&
+      values[a] === values[c]
+    ) {
+      return values[a];
+    }
+  }
+
+  if (values.every(Boolean)) {
+    return 'draw';
+  }
+
+  return null;
+}
+
+function resetGame() {
+  currentPlayer = 'X';
+  gameActive = true;
+
+  gameCells.forEach(cell => {
+    cell.textContent = '';
+    cell.disabled = false;
+  });
+
+  gameStatus.textContent = "X's turn";
+}
+
+gameCells.forEach(cell => {
+  cell.addEventListener('click', () => {
+    if (!gameActive || cell.textContent) return;
+
+    cell.textContent = currentPlayer;
+
+    const result = checkWinner();
+
+    if (result === 'draw') {
+      gameStatus.textContent = 'Draw game';
+      gameActive = false;
+      return;
+    }
+
+    if (result) {
+      gameStatus.textContent = `${result} wins`;
+      gameActive = false;
+
+      gameCells.forEach(c => c.disabled = true);
+      return;
+    }
+
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    gameStatus.textContent = `${currentPlayer}'s turn`;
+  });
+});
+
+if (resetGameBtn) {
+  resetGameBtn.addEventListener('click', resetGame);
+}
   </script>
 
     <!-- Temporary Coming Soon Modal -->
