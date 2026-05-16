@@ -1245,7 +1245,7 @@
   <div id="desktop">
       <div class="top-bar">
           <div class="top-left">
-              hanikOS • portfolio v2.1
+              hanikOS • portfolio v2.2
           </div>
 
           <div class="top-center">
@@ -1791,21 +1791,55 @@ status/
 
 
     const bootLines = [
-      "[ OK ] Bootloader initialized...",
-      "[ OK ] Loading kernel 6.3.7-hanik-custom...",
-      "[ OK ] Detecting hardware...",
-      "[ OK ] CPU: Intel(R) Core Processor recognized",
-      "[ OK ] Memory check: 720MB available",
-      "[ OK ] Starting display manager (Wayland)...",
-      "[ OK ] Setting system locale to en_US.UTF-8",
-      "[ OK ] Loading user profile: haniksator",
-      "[ OK ] Launching Portfolio Renderer v3.0.0...",
-      "",
-      "haniksator@portfolio:~$ boot --launch"
+        "hanikOS v2.2",
+        "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─",
+
+        "loading kernel ................. done",
+        "mounting filesystem ............ done",
+        "detecting hardware ............. done",
+        "memory check ................... passed",
+
+        "",
+        "system",
+        "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─",
+
+        "user ........................... haniksator",
+        "shell .......................... zsh",
+        "editor ......................... vscode",
+        "compositor ..................... wayland",
+        "environment .................... development",
+
+        "",
+        "services",
+        "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─",
+
+        "desktop environment ............ active",
+        "renderer ....................... initialized",
+        "theme configuration ............ loaded",
+        "portfolio services ............. running",
+
+        "",
+        "workspace",
+        "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─",
+
+        "freshtrack",
+        "stock_exchange_simulator",
+        "remote_controlled_car",
+
+        "",
+        "status",
+        "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─",
+
+        "network ........................ online",
+        "terminal ....................... ready",
+        "renderer ....................... active",
+
+        "",
+        "haniksator@portfolio:~$ boot --launch"
     ];
 
-    const lineDelay = 20;   // delay between characters
-    const linePause = 75;   // pause between lines (ms)
+    const lineDelay = 5;   // delay between characters (ms)
+    const linePause = 25;   // pause between lines (ms)
 
     let lineIndex = 0;
     let charIndex = 0;
@@ -1817,7 +1851,7 @@ status/
 
         setTimeout(() => {
           bootOverlay.classList.add("hidden");
-        }, 700);
+        }, 600);
         return;
       }
 
