@@ -349,14 +349,26 @@
         transform: scale(1);
 
         transition:
-          opacity .18s var(--ease),
-          transform .18s var(--ease),
-          box-shadow .18s var(--ease),
-          border-color .18s var(--ease);
+          opacity .22s var(--ease),
+          transform .22s var(--ease),
+          box-shadow .2s var(--ease),
+          border-color .2s var(--ease);
       }
 
       .hidden {
         display: none;
+      }
+
+      .window.is-closing {
+        opacity: 0;
+        transform: scale(.96) translateY(10px);
+        pointer-events: none;
+      }
+
+      .window.minimized {
+        opacity: 0;
+        transform: scale(.92) translateY(18px);
+        pointer-events: none;
       }
 
       .window.window-opening {
@@ -2198,10 +2210,10 @@ status/
         "hanikOS v2.2",
         "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─",
 
-        "loading kernel ................. done",
-        "mounting filesystem ............ done",
-        "detecting hardware ............. done",
-        "memory check ................... passed",
+        "loading kernel ................. [OK]",
+        "mounting filesystem ............ [OK]",
+        "detecting hardware ............. [OK]",
+        "memory check ................... [OK]",
 
         "",
         "system",
@@ -2217,10 +2229,10 @@ status/
         "services",
         "─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─",
 
-        "desktop environment ............ active",
-        "renderer ....................... initialized",
-        "theme configuration ............ loaded",
-        "portfolio services ............. running",
+        "desktop environment ............ [OK]",
+        "renderer ....................... [OK]",
+        "theme configuration ............ [OK]",
+        "portfolio services ............. [OK]",
 
         "",
         "workspace",
@@ -2523,13 +2535,23 @@ status/
     const maximizeBtn = win.querySelector('.maximize');
 
     closeBtn.addEventListener('click', () => {
-        win.classList.add('hidden');
-        updateDockIndicators();
+        win.classList.add('is-closing');
+
+        setTimeout(() => {
+            win.classList.add('hidden');
+            win.classList.remove('is-closing', 'minimized');
+            updateDockIndicators();
+        }, 220);
     });
 
     minimizeBtn.addEventListener('click', () => {
-        win.classList.add('hidden');
-        updateDockIndicators();
+        win.classList.add('minimized');
+
+        setTimeout(() => {
+            win.classList.add('hidden');
+            win.classList.remove('minimized');
+            updateDockIndicators();
+        }, 220);
     });
 
     maximizeBtn.addEventListener('click', () => {
@@ -2641,6 +2663,7 @@ status/
       if (!target) return;
 
       target.classList.remove('hidden');
+      target.classList.remove('is-closing', 'minimized');
 
       highestZ++;
       target.style.zIndex = highestZ;
