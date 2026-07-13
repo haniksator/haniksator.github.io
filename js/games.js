@@ -4,8 +4,9 @@
  * Description:
  * Implements the Tic Tac Toe desktop application.
  *
- * Handles player turns, game state management,
- * win detection, draw detection, and game reset logic.
+ * Handles player interaction, computer opponent logic,
+ * game state management, win and draw detection,
+ * and game reset functionality.
  */
 
 const gameCells = document.querySelectorAll("[data-cell]");
@@ -54,30 +55,27 @@ function resetGame() {
   currentPlayer = "X";
   gameActive = true;
 
-  gameCells.forEach((cell) => {
+  gameCells.forEach(cell => {
     cell.textContent = "";
     cell.disabled = false;
   });
 
-  if (gameStatus) {
-    gameStatus.textContent = "X's turn";
-  }
+  gameStatus.textContent = "Your turn";
 }
 
-gameCells.forEach((cell) => {
+gameCells.forEach(cell => {
   cell.addEventListener("click", () => {
-    if (!gameActive || cell.textContent) {
+    if (!gameActive || cell.textContent || currentPlayer !== "X") {
       return;
     }
 
-    cell.textContent = currentPlayer;
+    cell.textContent = "X";
 
     const result = checkWinner();
 
     if (result === "draw") {
       gameStatus.textContent = "Draw game";
       gameActive = false;
-
       return;
     }
 
@@ -85,18 +83,55 @@ gameCells.forEach((cell) => {
       gameStatus.textContent = `${result} wins`;
       gameActive = false;
 
-      gameCells.forEach((gameCell) => {
-        gameCell.disabled = true;
+      gameCells.forEach(cell => {
+        cell.disabled = true;
       });
 
       return;
     }
 
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
-    gameStatus.textContent = `${currentPlayer}'s turn`;
+    currentPlayer = "O";
+    gameStatus.textContent = "Computer is thinking...";
+
+    setTimeout(makeComputerMove, 400);
   });
 });
 
 if (resetGameButton) {
   resetGameButton.addEventListener("click", resetGame);
+}
+
+function makeComputerMove() {
+  const emptyCells = [...gameCells].filter(cell => !cell.textContent);
+
+  if (!gameActive || emptyCells.length === 0) {
+    return;
+  }
+
+  const randomIndex = Math.floor(Math.random() * emptyCells.length);
+  const selectedCell = emptyCells[randomIndex];
+
+  selectedCell.textContent = "O";
+
+  const result = checkWinner();
+
+  if (result === "draw") {
+    gameStatus.textContent = "Draw game";
+    gameActive = false;
+    return;
+  }
+
+  if (result) {
+    gameStatus.textContent = `${result} wins`;
+    gameActive = false;
+
+    gameCells.forEach(cell => {
+      cell.disabled = true;
+    });
+
+    return;
+  }
+
+  currentPlayer = "X";
+  gameStatus.textContent = "Your turn";
 }
