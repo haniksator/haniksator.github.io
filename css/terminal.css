@@ -1,3 +1,12 @@
+/*
+ * File: terminal.css
+ * Author: Hanik Sator
+ *
+ * Description:
+ * This file styles the terminal application, including command output,
+ * prompt formatting, input field, scrolling behavior, and terminal color scheme.
+ */
+
       /* terminal css beginning */
       .terminal-content {
         display: flex;

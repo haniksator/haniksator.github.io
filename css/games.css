@@ -1,5 +1,15 @@
+/*
+ * File: games.css
+ * Author: Hanik Sator
+ *
+ * Description:
+ * This file contains styling for interactive games included in the
+ * desktop environment, which currently is only the Tic Tac Toe
+ * desktop application.
+ *
+ * If further games are added, continue to add them here or split into different sub-directories under the /games.
+ */
       /* tic tac toe css beginning */
-
       .game-window {
         width: 420px;
         height: 470px;

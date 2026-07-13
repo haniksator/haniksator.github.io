@@ -1,3 +1,14 @@
+/*
+ * File: windows.css
+ * Author: Hanik Sator
+ *
+ * Description:
+ * This file defines the shared window system used throughout the portfolio.
+ *
+ * It includes the styling for window containers, title bars, window controls,
+ * animations, focus states, dragging behavior visuals, and maximize,
+ * minimize, and close states.
+ */
       /* window css beginning */
       .window {
         position: absolute;
@@ -139,5 +150,4 @@
         color: var(--heading);
         margin-bottom: .75rem;
       }
-
       /* window css ending */

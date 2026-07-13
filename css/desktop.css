@@ -1,3 +1,15 @@
+/*
+ * File: desktop.css
+ * Author: Hanik Sator
+ *
+ * Description:
+ * This file contains the global styling for the portfolio desktop environment,
+ * including theme variables, layout, desktop background, dock,
+ * desktop icons, top navigation bar, and boot screen.
+ *
+ * This file is the very appearance of the operating system I'm trying to emulate
+ * before individual application windows are rendered.
+ */
       :root {
         --bg: #EDEAE4;
         --bg-alt: #E3DDD5;
@@ -316,7 +328,6 @@
         padding: 0;
         align-items: center;
       }
-
 
       .boot-overlay {
         position: fixed;

@@ -1,3 +1,14 @@
+/*
+ * File: applications.css
+ * Author: Hanik Sator
+ *
+ * Description:
+ * This file contains styling for the portfolio applications, including
+ * About, Experience, Skills, Resume, and Contact windows.
+ *
+ * Also, provides layouts, cards, typography, grids, and application-
+ * specific interface components.
+ */
       /* skills css beginning */
       .config-content {
         font-family: ui-monospace, SFMono-Regular, Menlo, monospace;

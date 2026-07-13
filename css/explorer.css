@@ -1,3 +1,12 @@
+/*
+ * File: explorer.css
+ * Author: Hanik Sator
+ *
+ * Description:
+ * This file includes repository navigation, project panels,
+ * project information cards, walkthrough video modal,
+ * and "Coming Soon" dialog components.
+ */
       /* projects css beginning */
       .projects-content {
         display: grid;
