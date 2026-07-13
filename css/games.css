@@ -1,0 +1,91 @@
+      /* tic tac toe css beginning */
+
+      .game-window {
+        width: 420px;
+        height: 470px;
+      }
+
+      .game-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .game-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .game-head h2 {
+        margin-bottom: .35rem;
+      }
+
+      .game-head p {
+        line-height: 1.5;
+        opacity: .75;
+      }
+
+      .game-reset {
+        padding: .5rem .75rem;
+
+        border-radius: 999px;
+
+        border: 1px solid var(--border);
+
+        background: rgba(255,255,255,.28);
+        color: var(--text);
+
+        font: inherit;
+        font-weight: 600;
+
+        cursor: pointer;
+      }
+
+      .game-reset:hover {
+        background: rgba(135,144,127,.16);
+      }
+
+      .game-status {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        opacity: .75;
+      }
+
+      .tic-board {
+        display: grid;
+        grid-template-columns: repeat(3, 82px);
+        gap: .65rem;
+
+        margin: .4rem auto 0;
+      }
+
+      .tic-board button {
+        width: 82px;
+        height: 82px;
+
+        border-radius: 18px;
+
+        border: 1px solid var(--border-strong);
+
+        background: rgba(230,226,218,.72);
+
+        color: var(--heading);
+
+        font: 800 2rem ui-monospace, SFMono-Regular, Menlo, monospace;
+
+        cursor: pointer;
+
+        transition: .16s ease;
+      }
+
+      .tic-board button:hover {
+        background: rgba(135,144,127,.18);
+        transform: translateY(-1px);
+      }
+
+      .tic-board button:disabled {
+        cursor: default;
+        opacity: .85;
+      }
+      /* easter egg ending */

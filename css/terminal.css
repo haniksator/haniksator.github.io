@@ -1,0 +1,58 @@
+      /* terminal css beginning */
+      .terminal-content {
+        display: flex;
+        flex-direction: column;
+
+        background: rgba(44, 40, 36, 0.94);
+        color: #D8E0CC;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      #terminalOutput {
+        flex: 1;
+
+        overflow-y: auto;
+
+        padding-bottom: 1rem;
+      }
+
+      .terminal-line,
+        .terminal-response {
+        margin-bottom: .55rem;
+
+        line-height: 1.6;
+      }
+
+      .terminal-command {
+        color: #A8C090;
+      }
+
+      .terminal-input-row {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+
+        border-top: 1px solid rgba(255,255,255,.06);
+
+        padding-top: 1rem;
+      }
+
+      .terminal-prompt {
+        color: #A8C090;
+
+        white-space: nowrap;
+      }
+
+      #terminalInput {
+        flex: 1;
+
+        background: transparent;
+
+        border: none;
+        outline: none;
+
+        color: #D8E0CC;
+
+        font: inherit;
+      }
+      /* terminal css ending */

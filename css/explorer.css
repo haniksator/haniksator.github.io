@@ -1,0 +1,433 @@
+      /* projects css beginning */
+      .projects-content {
+        display: grid;
+        grid-template-columns: 190px 1fr;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .projects-sidebar {
+        padding: 1rem;
+        border-right: 1px solid var(--border);
+        background: rgba(135,144,127,.08);
+      }
+
+      .sidebar-title {
+        margin-bottom: .8rem;
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        opacity: .55;
+      }
+
+      .project-file {
+        width: 100%;
+        display: block;
+        padding: .7rem .75rem;
+        margin-bottom: .35rem;
+
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 10px;
+
+        color: var(--text);
+        font: inherit;
+        text-align: left;
+
+        cursor: pointer;
+      }
+
+      .project-file:hover,
+      .project-file.active {
+        background: rgba(135,144,127,.14);
+        border-color: rgba(135,144,127,.18);
+      }
+
+      .project-details {
+        padding: 1.4rem;
+        overflow: auto;
+      }
+
+      .project-panel {
+        display: none;
+      }
+
+      .project-panel.active {
+        display: block;
+      }
+
+      .project-path {
+        margin-bottom: .7rem;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: .85rem;
+        opacity: .58;
+      }
+
+      .project-panel h2 {
+        margin-bottom: .75rem;
+        color: var(--heading);
+      }
+
+      .project-panel p {
+        max-width: 620px;
+        line-height: 1.7;
+      }
+
+      .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin: 1.2rem 0;
+      }
+
+      .project-tags span {
+        padding: .4rem .65rem;
+        border-radius: 999px;
+        background: rgba(135,144,127,.13);
+        border: 1px solid rgba(135,144,127,.16);
+        font-size: .82rem;
+      }
+
+      .project-actions {
+        display: flex;
+        gap: .7rem;
+        flex-wrap: wrap;
+        margin-top: 1.2rem;
+      }
+
+      .project-link {
+        padding: .65rem .9rem;
+        border-radius: 999px;
+
+        background: rgba(46,42,38,.92);
+        color: #F4F1EC;
+
+        border: 1px solid rgba(46,42,38,.12);
+
+        font: inherit;
+        font-weight: 600;
+
+        cursor: pointer;
+      }
+
+      .project-link:hover {
+        transform: translateY(-1px);
+        background: var(--accent);
+      }
+
+      .cs-modal {
+        position: fixed;
+        inset: 0;
+
+        z-index: 2000;
+
+        display: grid;
+        place-items: center;
+
+        opacity: 0;
+        pointer-events: none;
+
+        transition: opacity .22s var(--ease);
+      }
+
+      .cs-modal[aria-hidden="false"] {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .cs-backdrop {
+        position: absolute;
+        inset: 0;
+
+        border: none;
+        padding: 0;
+        margin: 0;
+
+        background: rgba(46, 42, 38, .34);
+        backdrop-filter: blur(6px);
+
+        cursor: default;
+      }
+
+      .cs-panel {
+        position: relative;
+
+        width: min(520px, calc(100vw - 2rem));
+
+        background: rgba(248, 244, 238, .94);
+
+        border: 1px solid var(--border-strong);
+        border-radius: 18px;
+
+        box-shadow:
+        0 24px 70px rgba(0,0,0,.22),
+        0 0 0 1px rgba(255,255,255,.28);
+
+        color: var(--text);
+
+        padding: 0;
+
+        overflow: hidden;
+
+        transform: translateY(10px) scale(.98);
+
+        transition: transform .22s var(--ease);
+      }
+
+      .cs-modal[aria-hidden="false"] .cs-panel {
+        transform: translateY(0) scale(1);
+      }
+
+      .cs-head {
+        height: 48px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 1rem;
+
+        background: rgba(255,255,255,.26);
+
+        border-bottom: 1px solid var(--border);
+      }
+
+      .cs-head h3 {
+        font-size: 1rem;
+        font-weight: 700;
+
+        color: var(--heading);
+      }
+
+      .cs-body {
+        padding: 1rem 1.1rem;
+
+        line-height: 1.7;
+
+        opacity: .86;
+      }
+
+      .cs-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: .7rem;
+
+        padding: 0 1.1rem 1.1rem;
+      }
+
+      .cs-panel-video {
+        width: min(860px, calc(100vw - 2rem));
+      }
+
+      .cs-actions .btn,
+      .cs-actions .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: .65rem .9rem;
+
+        border-radius: 999px;
+
+        font: inherit;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: .18s ease;
+      }
+
+      .cs-actions .btn {
+        background: rgba(46,42,38,.92);
+        color: #F4F1EC;
+
+        border: 1px solid rgba(46,42,38,.12);
+      }
+
+      .cs-actions .btn:hover {
+        background: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .cs-actions .btn-ghost {
+        background: rgba(255,255,255,.28);
+        color: var(--text);
+
+        border: 1px solid var(--border);
+      }
+
+      .cs-actions .btn-ghost:hover {
+        border-color: var(--border-strong);
+        transform: translateY(-1px);
+      }
+
+      .project-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .project-summary {
+        max-width: 600px;
+        line-height: 1.7;
+        opacity: .84;
+      }
+
+      .project-status {
+        padding: .4rem .7rem;
+
+        border-radius: 999px;
+
+        background: rgba(127,163,107,.16);
+        border: 1px solid rgba(127,163,107,.24);
+
+        color: #5F7F4E;
+        font-size: .78rem;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .project-status.muted {
+        background: rgba(70,60,50,.08);
+        border-color: var(--border);
+        color: rgba(46,42,38,.62);
+      }
+
+      .project-info-grid {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: .8rem;
+
+        margin: 1rem 0 1.2rem;
+      }
+
+      .project-info-card {
+        padding: .9rem;
+
+        border-radius: 14px;
+
+        background: rgba(230,226,218,.72);
+
+        border: 1px solid var(--border);
+      }
+
+      .project-info-card span {
+        display: block;
+
+        margin-bottom: .4rem;
+
+        font-size: .72rem;
+        font-weight: 700;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+
+        opacity: .55;
+      }
+
+      .project-info-card p {
+        line-height: 1.5;
+        font-size: .92rem;
+      }
+
+      .project-section {
+        margin-top: 1rem;
+      }
+
+      .project-section h3 {
+        margin-bottom: .6rem;
+
+        font-size: 1rem;
+
+        color: var(--heading);
+      }
+
+      .project-section ul {
+        padding-left: 1.1rem;
+
+        display: grid;
+        gap: .45rem;
+      }
+
+      .project-section li {
+        line-height: 1.6;
+      }
+      /* projects css ending */
+
+
+
+
+      .video-notes {
+        margin-top: 1rem;
+        padding-top: .9rem;
+
+        border-top: 1px solid var(--border);
+
+        font-size: .95rem;
+      }
+
+      .video-notes h4 {
+        font-size: 1.02rem;
+        font-weight: 800;
+
+        color: var(--heading);
+
+        margin-bottom: .45rem;
+      }
+
+      .video-notes ul {
+        list-style: none;
+
+        display: grid;
+        gap: .35rem;
+      }
+
+      .video-notes li {
+        position: relative;
+
+        padding-left: 1rem;
+
+        opacity: .9;
+      }
+
+      .video-notes li::before {
+        content: "•";
+
+        position: absolute;
+        left: 0;
+
+        color: var(--accent);
+      }
+
+      .video-player {
+        width: 100%;
+
+        border-radius: 14px;
+
+        border: 1px solid var(--border);
+
+        background: #111;
+
+        display: block;
+      }
+
+      .video-wrap {
+        padding: 1rem;
+      }
+
+
+
+      .dock-icon svg {
+        width: 22px;
+        height: 22px;
+        stroke-width: 1.8;
+      }
+
+      .desktop-icon svg {
+        width: 34px;
+        height: 34px;
+        stroke-width: 1.7;
+        margin: 0 auto;
+      }

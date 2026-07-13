@@ -1,0 +1,143 @@
+      /* window css beginning */
+      .window {
+        position: absolute;
+
+        width: 700px;
+        height: 500px;
+
+        background: rgba(236, 233, 225, 0.84);
+
+        border: 1px solid var(--border-strong);
+
+        border-radius: 18px;
+
+        backdrop-filter: blur(18px);
+
+        overflow: hidden;
+
+        box-shadow: var(--shadow);
+
+        top: 120px;
+        left: 240px;
+
+        display: flex;
+        flex-direction: column;
+
+        color: var(--text);
+
+        opacity: 1;
+        transform: scale(1);
+
+        transition:
+          opacity .22s var(--ease),
+          transform .22s var(--ease),
+          box-shadow .2s var(--ease),
+          border-color .2s var(--ease);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .window.is-closing {
+        opacity: 0;
+        transform: scale(.96) translateY(10px);
+        pointer-events: none;
+      }
+
+      .window.minimized {
+        opacity: 0;
+        transform: scale(.92) translateY(18px);
+        pointer-events: none;
+      }
+
+      .window.window-opening {
+        animation: windowOpen .18s var(--ease);
+      }
+
+      .window.active-window {
+        border-color: rgba(135,144,127,.34);
+
+        box-shadow:
+          0 18px 45px rgba(0,0,0,.16),
+          0 0 0 1px rgba(135,144,127,.18);
+      }
+
+      .window.maximized {
+        width: calc(100vw - 140px);
+        height: calc(100vh - 90px);
+
+        top: 56px !important;
+        left: 100px !important;
+
+        border-radius: 18px;
+      }
+
+      @keyframes windowOpen {
+        from {
+          opacity: 0;
+          transform: scale(.96) translateY(8px);
+        }
+
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .window-header {
+        height: 52px;
+
+        display: flex;
+        align-items: center;
+
+        gap: 1rem;
+
+        padding: 0 1rem;
+
+        background: rgba(135,144,127,.10);
+
+        border-bottom: 1px solid var(--border);
+
+        color: var(--heading);
+
+        font-weight: 600;
+
+        cursor: grab;
+      }
+
+      .window-controls {
+        display: flex;
+        gap: .45rem;
+      }
+
+      .window-controls span {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+
+      .close {
+        background: #ff5f57;
+      }
+
+      .minimize {
+        background: #febc2e;
+      }
+
+      .maximize {
+        background: #28c840;
+      }
+
+      .window-content {
+        padding: 1.2rem;
+        overflow: auto;
+        flex: 1;
+      }
+
+      .window-content h2 {
+        color: var(--heading);
+        margin-bottom: .75rem;
+      }
+
+      /* window css ending */
